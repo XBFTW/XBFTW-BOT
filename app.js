@@ -8,14 +8,23 @@ const client = new Client({
 	intents: 32767
 })
 require('dotenv').config();
-//const thisGuild = client.guilds.cache.get(`${config.guildId}`)
 
 
+
+//GETS THE COMMANDS FROM THE COMMAND FOLDER
 client.commands = new Collection();
+
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
+	client.commands.set(command.data.name, command);
+}
+//GETS THE COMMANDS FROM THE MUSIC FOLDER
+const musicCommandFiles = fs.readdirSync('./commands/music').filter(file => file.endsWith('.js'));
+
+for (const file of musicCommandFiles) {
+	const command = require(`./commands/music/${file}`);
 	client.commands.set(command.data.name, command);
 }
 
