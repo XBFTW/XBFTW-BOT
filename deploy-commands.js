@@ -21,4 +21,3 @@ rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands })
 	.catch(console.error);
 
 // node deploy-commands.js
-//EVERYTIME YOU MAKE A NEW COMMAND, do node deploy-commands.js

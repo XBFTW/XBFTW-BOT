@@ -8,7 +8,6 @@ const client = new Client({
 	intents: 32767
 })
 require('dotenv').config();
-const config = require('./config.json')
 //const thisGuild = client.guilds.cache.get(`${config.guildId}`)
 
 
@@ -29,7 +28,7 @@ client.on('interactionCreate', async interaction => {
 	if (!command) return;
 
 	try {
-		await command.execute(interaction);
+		await command.execute(interaction, client);//What each command file has access to
 	} catch (error) {
 		console.error(error);
 		await interaction.reply({
