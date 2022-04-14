@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require("@discordjs/builders")
 const { MessageEmbed } = require("discord.js")
 const { QueryType, Player } = require("discord-player")
 
-
+//XBFTW 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName("play")
@@ -100,4 +100,4 @@ module.exports = {
             embeds: [embed]
         })
 	},
-}
+}//XBFTW
