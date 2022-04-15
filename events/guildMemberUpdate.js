@@ -4,6 +4,9 @@ module.exports = {
 
             const channel = newMember.guild.channels.cache.find(ch => ch.name === '🤖〡xbftw-bot-spam');
             if (!channel) return;
+        
+            if(`${oldMember.displayName}` === `${newMember.displayName}`){
+            return;}
 
             channel.send(` ${oldMember}, ${oldMember.displayName} has changed their name to ${newMember.displayName}`);
 
