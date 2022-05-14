@@ -6,11 +6,17 @@ module.exports = {
 		.setDescription('Replies with a picture of a cat.'),
 	async execute(interaction) {
 
-        const fetch = require('node-fetch');
-        await interaction.deferReply();
-		const { file } = await fetch('https://aws.random.cat/meow').then(response => response.json());
+        const RedditImageFetcher = require("reddit-image-fetcher");
+		
+		await interaction.reply({ content: 'Searching for cute cats...', fetchReply: true })
 
-		interaction.editReply({ files: [file] });
+	RedditImageFetcher.fetch({
+            type: 'custom',
+            subreddit: ['cats', 'Kitten'],
+        }).then(result => {
+            interaction.editReply(result[0].image);
+        })
+        .catch(console.error);
 	
 	},
 };
