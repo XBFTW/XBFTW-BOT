@@ -9,6 +9,13 @@ const client = new Client({
 })
 require('dotenv').config();
 
+const { QueryType, Player } = require("discord-player")
+client.player = new Player(client, {
+	ytdlOptions: {
+		quality: "highestaudio",
+		highWaterMark: 1 << 25
+	}
+})
 
 
 //GETS THE COMMANDS FROM THE COMMAND FOLDER
@@ -59,4 +66,4 @@ for (const file of eventFiles) {
 	}
 }
 
-client.login(process.env.TOKEN)
+client.login(process.env.TOKEN);
