@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require("@discordjs/builders")
 const { MessageEmbed } = require("discord.js")
 const { QueryType, Player } = require("discord-player")
 
-//XBFTW 
+
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName("play")
@@ -31,12 +31,12 @@ module.exports = {
 
 	async execute(interaction, client) {
 
-        client.player = new Player(client, {
-            ytdlOptions: {
-                quality: "highestaudio",
-                highWaterMark: 1 << 25
-            }
-        })
+        // client.player = new Player(client, {
+        //     ytdlOptions: {
+        //         quality: "highestaudio",
+        //         highWaterMark: 1 << 25
+        //     }
+        // })
 
         await interaction.deferReply("Loading...")
         
@@ -100,4 +100,4 @@ module.exports = {
             embeds: [embed]
         })
 	},
-}//XBFTW
+}
