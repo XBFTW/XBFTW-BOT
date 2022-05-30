@@ -1,3 +1,4 @@
+//MADE BY XBFTW - Open Source MIT License 
 const fs = require('fs');
 const {
 	Client,
