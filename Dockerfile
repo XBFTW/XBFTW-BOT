@@ -1,8 +1,27 @@
 FROM node:16
+RUN mkdir -p /opt/XBFTW-BOT
 WORKDIR /opt/XBFTW-BOT
 
 COPY package*.json ./
 
 RUN npm install
+
+COPY . .
+
+ENV TOKEN=
+ENV PREFIX=
+ENV OWNERID=
+ENV SPOTIFYID=
+ENV SPOTIFYSECRET=
+ENV MONGO_URI=
+ENV COlOR=
+ENV LOGS=
+ENV NODE_HOST=connect.freelavalink.ga
+ENV NODE_ID=
+ENV NODE_PORT=2000
+ENV NODE_PASSWORD=www.freelavalink.ga
+ENV NODE_SECURE=false
+
+
 
 CMD [ "npm", "start" ]
