@@ -81,7 +81,7 @@ Then Turn On Both Of Those Settings And Click "Save Changes" Then Your Are Done 
 #Create the volume
 docker volume create xbftw-bot
 #run the docker container, but make sure to replace the stuff in the <> with the correct information first. MAKE SURE TO REMOVE THE <> TOO!
-docker run -d --name xbftw-bot \
+docker run -d --name xbftw-bot --mount source=xbftw-bot,target=/opt/XBFTW-BOT  \
   -e "TOKEN=<token-here>" \
   -e "PREFIX=!" \
   -e "OWNERID=<your-id>" \
