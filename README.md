@@ -73,6 +73,11 @@ When Your Running The Code You Must Have Gotten This Error To Fix This Head Over
   </a>
 </p>
 Then Turn On Both Of Those Settings And Click "Save Changes" Then Your Are Done And The It Should Be Fixed
+
+## 🐳 Installation Using Docker
+
+#coming soon
+
 <!-- CONFIGURATION -->
 
 ## ⚙️ Configurations
