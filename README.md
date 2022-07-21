@@ -76,7 +76,27 @@ Then Turn On Both Of Those Settings And Click "Save Changes" Then Your Are Done 
 
 ## 🐳 Installation Using Docker
 
-#coming soon
+ 
+```
+#Create the volume
+docker volume create xbftw-bot
+#run the docker container, but make sure to replace the stuff in the <> with the correct information first. MAKE SURE TO REMOVE THE <> TOO!
+docker run -d --name xbftw-bot \
+  -e "TOKEN=<token-here>" \
+  -e "PREFIX=!" \
+  -e "OWNERID=<your-id>" \
+  -e "SPOTIFYID=<spotify-id>" \
+  -e "SPOTIFYSECRET=<spotify-secret>" \
+  -e "MONGO_URI=<mongo-uri-here>" \
+  -e "COlOR=" \
+  -e "LOGS=<log-channel-id>" \
+  -e "NODE_HOST=connect.freelavalink.ga" \
+  -e "NODE_ID=" \
+  -e "NODE_PORT=2000" \
+  -e "NODE_PASSWORD=www.freelavalink.ga" \
+  -e "NODE_SECURE=false" \
+  xbftw/xbftw-bot:main
+```
 
 <!-- CONFIGURATION -->
 
@@ -91,6 +111,7 @@ Then Turn On Both Of Those Settings And Click "Save Changes" Then Your Are Done 
     logs: process.env.LOGS || "", // channel id for guild create and delete logs
 ```
 ## 🌋 lavalink 
+Below is a free lavalink host.
 ```js
       "host": "disbotlistlavalink.ml",
       "port": 80,
