@@ -1,15 +1,15 @@
 require("dotenv").config();
 
 module.exports = {
-    token: process.env.TOKEN || "ODcxOTUzODUwNzEyNjE3MDEx.YQi0Tg.1TQNywUz4zpa2U4mXdH1IiY4mRw",  // your bot token
-    clientID: process.env.CLIENT_ID || "871953850712617011", // your bot client id
+    token: process.env.TOKEN || "",  // your bot token
+    clientID: process.env.CLIENT_ID || "", // your bot client id
     prefix: process.env.PREFIX || "!", // bot prefix
     ownerID: process.env.OWNERID || "415687999641354250", //your discord id
-    SpotifyID: process.env.SPOTIFYID || "ce14065fba3544f2be8dad4ffd59a4b4",
-    SpotifySecret: process.env.SPOTIFYSECRET || "6a76143731444917a7193042fa7c5422",
-    mongourl: process.env.MONGO_URI || "mongodb+srv://xbftw:Aa1127574@xb-music.vx5zy.mongodb.net/XB-MUSIC?retryWrites=true&w=majority", // MongoDb URL
+    SpotifyID: process.env.SPOTIFYID || "",
+    SpotifySecret: process.env.SPOTIFYSECRET || "",
+    mongourl: process.env.MONGO_URI || "", // MongoDb URL
     embedColor: process.env.COlOR || 0x303236, // embed colour
-    logs: process.env.LOGS || "957219129457274901", // channel id for guild create and delete logs
+    logs: process.env.LOGS || "", // channel id for guild create and delete logs
     links: {
         img: process.env.IMG || 'https://xbftw.com/assets/img/xbftw.png', //setup system background image 
         support: process.env.SUPPORT || 'https://xbftw/com/discord', //support server invite link
