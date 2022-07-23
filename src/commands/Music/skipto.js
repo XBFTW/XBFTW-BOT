@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
     name: "skipto",
@@ -7,7 +7,7 @@ module.exports = {
     description: "Forward song",
     args: true,
     usage: "<Number of song in queue>",
-    permission: [],
+    userPerms: [],
     dj: true,
     owner: false,
     player: true,
@@ -18,7 +18,7 @@ module.exports = {
 		const player = client.manager.get(message.guild.id);
 
         if (!player.queue.current) {
-            let thing = new MessageEmbed()
+            let thing = new EmbedBuilder()
                 .setColor("RED")
                 .setDescription("There is no music playing.");
             return message.reply({embeds: [thing]});
@@ -27,18 +27,18 @@ module.exports = {
         const position = Number(args[0]);
 		
 		if (!position || position < 0 || position > player.queue.size) { 
-			let thing = new MessageEmbed()
+			let thing = new EmbedBuilder()
                 .setColor("RED")
 				.setDescription(`Usage: ${message.client.prefix}skipto <Number of song in queue>`)
             return message.reply({embeds: [thing]});
 		}
 
-        player.queue.remove(0, position - 1);
+        player.queue.remove(0, position);
         player.stop();
 		
 		const emojijump = client.emoji.jump;
 
-		let thing = new MessageEmbed()
+		let thing = new EmbedBuilder()
 			.setDescription(`${emojijump} Forward **${position}** Songs`)
 			.setColor(client.embedColor)
 			.setTimestamp()

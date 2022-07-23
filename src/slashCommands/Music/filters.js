@@ -1,9 +1,9 @@
-const { MessageEmbed, CommandInteraction, Client } = require("discord.js")
+const { EmbedBuilder, CommandInteraction, Client, ApplicationCommandOptionType } = require("discord.js")
 
 module.exports = {
     name: "filters",
     description: "Set EqualizerBand",
-    permissions: [],
+    userPrems: [],
     player: true,
     dj: true,
     inVoiceChannel: true,
@@ -12,7 +12,7 @@ module.exports = {
         {
             name: "filter",
             description: "Set EqualizerBand",
-            type: "STRING",
+            type: ApplicationCommandOptionType.String,
             required: true,
             choices: [
                 {
@@ -73,14 +73,14 @@ module.exports = {
 
         const player = interaction.client.manager.get(interaction.guildId);
         if (!player.queue.current) {
-            const thing = new MessageEmbed()
+            const thing = new EmbedBuilder()
                 .setDescription('there is nothing playing')
                 .setColor(client.embedColor)
             return interaction.editReply({ embeds: [thing] });
         }
         const emojiequalizer = client.emoji.filter;
 
-        let thing = new MessageEmbed()
+        let thing = new EmbedBuilder()
             .setColor(client.embedColor)
             .setTimestamp()
         switch (filter) {

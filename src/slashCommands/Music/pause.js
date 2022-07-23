@@ -1,9 +1,9 @@
-const { MessageEmbed, CommandInteraction, Client } = require("discord.js")
+const { EmbedBuilder, CommandInteraction, Client } = require("discord.js")
 
 module.exports = {
   name: "pause",
   description: "Pause the currently playing music",
-  permissions: [],
+  userPrems: [],
   dj: true,
   player: true,
   inVoiceChannel: true,
@@ -23,7 +23,7 @@ module.exports = {
     const player = interaction.client.manager.get(interaction.guildId);
 
     if (!player.queue.current) {
-      let thing = new MessageEmbed()
+      let thing = new EmbedBuilder()
         .setColor("RED")
         .setDescription("There is no music playing.");
       return interaction.editReply({ embeds: [thing] });
@@ -32,7 +32,7 @@ module.exports = {
     const emojipause = client.emoji.pause;
 
     if (player.paused) {
-      let thing = new MessageEmbed()
+      let thing = new EmbedBuilder()
         .setColor("RED")
         .setDescription(`${emojipause} The player is already paused.`)
         .setTimestamp()
@@ -43,7 +43,7 @@ module.exports = {
 
     const song = player.queue.current;
 
-    let thing = new MessageEmbed()
+    let thing = new EmbedBuilder()
       .setColor(client.embedColor)
       .setTimestamp()
       .setDescription(`${emojipause} **Paused**\n[${song.title}](${song.uri})`)

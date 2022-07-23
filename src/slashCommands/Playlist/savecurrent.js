@@ -1,4 +1,4 @@
-const { MessageEmbed, CommandInteraction, Client } = require("discord.js");
+const { EmbedBuilder, CommandInteraction, Client, ApplicationCommandOptionType } = require("discord.js");
 const db = require("../../schema/playlist");
 
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
             name: "name",
             description: "Playlist Name",
             required: true,
-            type: "STRING"
+            type: ApplicationCommandOptionType.String
         }
     ],
     /** 
@@ -31,16 +31,16 @@ module.exports = {
 
         const player = client.manager.players.get(interaction.guildId);
         if (!player.queue.current) {
-            let thing = new MessageEmbed()
+            let thing = new EmbedBuilder()
                 .setColor("RED")
                 .setDescription(i18n.__("player.nomusic"));
             return interaction.editReply({ embeds: [thing] });
         }
         if (!data) {
-            return interaction.editReply({ embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`You don't have a playlist with **${Name}** name`)] });
+            return interaction.editReply({ embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`You don't have a playlist called **${Name}**.`)] });
         }
         if (data.length == 0) {
-            return interaction.editReply({ embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`You don't have a playlist with **${Name}** name`)] });
+            return interaction.editReply({ embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`You don't have a playlist called **${Name}**.`)] });
         }
         const track = player.queue.current;
         let oldSong = data.Playlist;
@@ -66,7 +66,7 @@ module.exports = {
 
                 }
             });
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setColor(client.embedColor)
             .setDescription(`Added [${track.title.substr(0, 256)}](${track.uri}) in \`${Name}\``)
         return interaction.editReply({ embeds: [embed] })

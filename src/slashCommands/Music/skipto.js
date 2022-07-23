@@ -1,9 +1,9 @@
-const { CommandInteraction, Client, MessageEmbed } = require("discord.js");
+const { CommandInteraction, Client, EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
 
 module.exports = {
   name: "skipto",
   description: "Forward song",
-  permissions: [],
+  userPrems: [],
   player: true,
   dj: true,
   inVoiceChannel: true,
@@ -11,9 +11,9 @@ module.exports = {
   options: [
     {
       name: "number",
-      description: "select a song number",
+      description: "Select a song number",
       required: true,
-      type: "NUMBER"
+      type: ApplicationCommandOptionType.Number,
     }
   ],
 
@@ -31,7 +31,7 @@ module.exports = {
     const player = interaction.client.manager.get(interaction.guildId);
 
     if (!player.queue.current) {
-      let thing = new MessageEmbed()
+      let thing = new EmbedBuilder()
         .setColor("RED")
         .setDescription("There is no music playing.");
       return await interaction.editReply({ embeds: [thing] });
@@ -40,18 +40,18 @@ module.exports = {
     const position = Number(args);
 
     if (!position || position < 0 || position > player.queue.size) {
-      let thing = new MessageEmbed()
+      let thing = new EmbedBuilder()
         .setColor("RED")
-        .setDescription(`Usage: ${prefix}volume <Number of song in queue>`)
+        .setDescription(`Usage: ${prefix}skipto <Number of song in queue>`)
       return await interaction.editReply({ embeds: [thing] });
     }
 
-    player.queue.remove(0, position - 1);
+    player.queue.remove(0, position);
     player.stop();
 
     const emojijump = client.emoji.jump;
 
-    let thing = new MessageEmbed()
+    let thing = new EmbedBuilder()
       .setDescription(`${emojijump} Forward **${position}** Songs`)
       .setColor(client.embedColor)
       .setTimestamp()

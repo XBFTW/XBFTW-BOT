@@ -59,7 +59,7 @@ to snag all of the dependencies. Of course, you need [node](https://nodejs.org/e
 ## intents
 
 <p align="center">
-  <a href="https://github.com/brblacky/lavamusic">
+  <a href="https://github.xbftw.com">
     <img src="https://media.discordapp.net/attachments/848492641585725450/894114853382410260/unknown.png">
 
   </a>
@@ -67,7 +67,7 @@ to snag all of the dependencies. Of course, you need [node](https://nodejs.org/e
 When Your Running The Code You Must Have Gotten This Error To Fix This Head Over To Your Bots Discord Application and Go To The Bot Settings And Find This
 
 <p align="center">
-  <a href="https://github.com/brblacky/lavamusic">
+  <a href="https://github.com/XBFTW/XBFTW-BOT">
     <img src="https://media.discordapp.net/attachments/848492641585725450/894115221701001216/unknown.png">
 
   </a>
@@ -113,9 +113,9 @@ docker run -d --name xbftw-bot --mount source=xbftw-bot,target=/opt/XBFTW-BOT  \
 ## 🌋 lavalink 
 Below is a free lavalink host.
 ```js
-      "host": "disbotlistlavalink.ml",
-      "port": 80,
-      "password": "LAVA",
+      "host": "lavalink.xbftw.com",
+      "port": 2000,
+      "password": "youshallnotpass",
       "retryDelay": 3000,
       "secure": false
 ```

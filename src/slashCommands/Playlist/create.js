@@ -1,9 +1,9 @@
-const { MessageEmbed, CommandInteraction, Client} = require("discord.js");
+const { EmbedBuilder, CommandInteraction, Client, ApplicationCommandOptionType } = require("discord.js");
 const db = require("../../schema/playlist");
 
 module.exports = {
     name: "create",
-    description: "Gets the user's playlist.",
+    description: "Creates the user's playlist.",
     player: false,
     inVoiceChannel: false,
     sameVoiceChannel: false,
@@ -12,7 +12,7 @@ module.exports = {
             name: "name",
             description: "Playlist name",
             required: true,
-            type: "STRING"
+            type: ApplicationCommandOptionType.String
         }
     ],
     /**
@@ -29,17 +29,17 @@ module.exports = {
         const data = await db.find({ UserId: interaction.member.user.id, PlaylistName: Name });
 
         if (Name.length > 10) {
-            return interaction.editReply({ embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`Playlist Name Cant Be Greater Than 10 Charecters`)] });
+            return interaction.editReply({ embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`Playlist Name can't be greater than 10 Characters`)] });
 
         };
         if (data.length > 0) {
-            return interaction.editReply({ embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`This playlist already Exists! delete it using: \`${prefix}\`delete \`${Name}\``)] })
+            return interaction.editReply({ embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`This playlist already exists! delete it using: \`${prefix}\`delete \`${Name}\``)] })
         };
         let userData = db.find({
             UserId: interaction.user.id
         });
         if (userData.length >= 10) {
-            return interaction.editReply({ embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`You Can Only Create 10 Playlist`)] })
+            return interaction.editReply({ embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`You can only create 10 Playlists`)] })
         }
         const newData = new db({
             UserName: interaction.user.tag,
@@ -48,7 +48,7 @@ module.exports = {
             CreatedOn: Math.round(Date.now() / 1000)
         });
         await newData.save();
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setDescription(`Successfully created a playlist for you **${Name}**`)
             .setColor(client.embedColor)
         return interaction.editReply({ embeds: [embed] })

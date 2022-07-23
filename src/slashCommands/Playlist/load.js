@@ -1,4 +1,4 @@
-const { MessageEmbed, CommandInteraction, Client, MessageActionRow, MessageButton } = require("discord.js");
+const { EmbedBuilder, CommandInteraction, Client, ActionRowBuilder, ButtonBuilder, ApplicationCommandOptionType } = require("discord.js");
 const db = require("../../schema/playlist");
 
 module.exports = {
@@ -10,9 +10,9 @@ module.exports = {
     options: [
         {
             name: "name",
-            description: "play the saved playlist",
+            description: "Play the saved playlist",
             required: true,
-            type: "STRING"
+            type: ApplicationCommandOptionType.String
         }
     ],
     /**
@@ -37,14 +37,16 @@ module.exports = {
         });
 
         if (player && player.state !== "CONNECTED") player.connect();
-
+        let length = data.PlaylistName;
+        let name = Name;
+        
         if (!data) {
-            return interaction.editReply({ embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`Playlist not found. Please enter the correct playlist name\n\nDo ${prefix}list To see your Playlist`)] })
+            return interaction.editReply({ embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`Playlist not found. Please enter the correct playlist name`)] })
         }
         if (!player) return;
 
         let count = 0;
-        const m = await interaction.editReply({ embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`Adding ${length} track(s) from your playlist **${Name}** to the queue.`)] })
+        const m = await interaction.editReply({ embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`Adding ${length} track(s) from your playlist **${Name}** to the queue.`)] })
         for (const track of data.Playlist) {
             let s = await player.search(track.uri ? track.uri : track.title, interaction.member);
             if (s.loadType === "TRACK_LOADED") {
@@ -60,8 +62,8 @@ module.exports = {
             };
         };
         if (player && !player.queue.current) player.destroy();
-        if (count <= 0 && m) return await m.edit({ embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`Couldn't add any tracks from your playlist **${name}** to the queue.`)] })
-        if (m) return await m.edit({ embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`Added ${count} track(s) from your playlist **${name}** to the queue.`)] })
+        if (count <= 0 && m) return await m.edit({ embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`Couldn't add any tracks from your playlist **${name}** to the queue.`)] })
+        if (m) return await m.edit({ embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`Added ${count} track(s) from your playlist **${name}** to the queue.`)] })
     }
 
 };

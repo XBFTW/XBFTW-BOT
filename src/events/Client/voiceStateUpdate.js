@@ -1,8 +1,8 @@
-const { MusicBot } = require("../../structures/MusicClient");
-const { VoiceState, MessageEmbed } = require("discord.js");
-/*
+const Client = require("../../index");
+const { VoiceState, EmbedBuilder } = require("discord.js");
+/** 
  *
- * @param {MusicBot} client
+ * @param {Client} client
  * @param {VoiceState} oldState
  * @param {VoiceState} newState
  * @returns {Promise<void>}
@@ -52,13 +52,13 @@ module.exports = {
   switch (stateChange.type) {
     case "JOIN":
       if (stateChange.members.size === 1 && player.paused) {
-        let emb = new MessageEmbed()
+        let emb = new EmbedBuilder()
           .setAuthor({name:`Resuming paused queue`})
           .setColor(client.embedColor)
           .setDescription(
             `Resuming playback because all of you left me with music to play all alone`
           );
-        await client.channels.cache.get(player.textChannel).send({embeds: [emb]});
+        client.channels.cache.get(player.textChannel).send({embeds: [emb]});
 
         let msg2 = await client.channels.cache
           .get(player.textChannel)
@@ -72,11 +72,11 @@ module.exports = {
       if (stateChange.members.size === 0 && !player.paused && player.playing) {
         player.pause(true);
 
-        let emb = new MessageEmbed()
+        let emb = new EmbedBuilder()
           .setAuthor({name: `Paused!`})
           .setColor(client.embedColor)
           .setDescription(`The player has been paused because everybody left`);
-        await client.channels.cache.get(player.textChannel).send({embeds: [emb]});
+        client.channels.cache.get(player?.textChannel).send({embeds: [emb]});
       }
       break;
   }

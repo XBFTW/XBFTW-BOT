@@ -1,9 +1,9 @@
-const { CommandInteraction, Client, MessageEmbed } = require("discord.js");
+const { CommandInteraction, Client, EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
 
 module.exports = {
   name: "remove",
-  description: "Remove song from the queue",
-  permissions: [],
+  description: "Remove a song from the queue",
+  userPrems: [],
   player: true,
   dj: true,
   inVoiceChannel: true,
@@ -13,7 +13,7 @@ module.exports = {
       name: "number",
       description: "Number of song in queue",
       required: true,
-      type: "NUMBER"
+      type: ApplicationCommandOptionType.Number,
     }
   ],
 
@@ -32,7 +32,7 @@ module.exports = {
     const player = interaction.client.manager.get(interaction.guildId);
 
     if (!player.queue.current) {
-      let thing = new MessageEmbed()
+      let thing = new EmbedBuilder()
         .setColor("RED")
         .setDescription("There is no music playing.");
       return await interaction.editReply({ embeds: [thing] });
@@ -41,7 +41,7 @@ module.exports = {
     const position = (Number(args) - 1);
     if (position > player.queue.size) {
       const number = (position + 1);
-      let thing = new MessageEmbed()
+      let thing = new EmbedBuilder()
         .setColor("RED")
         .setDescription(`No songs at number ${number}.\nTotal Songs: ${player.queue.size}`);
       return await interaction.editReply({ embeds: [thing] });
@@ -52,7 +52,7 @@ module.exports = {
 
     const emojieject = client.emoji.remove;
 
-    let thing = new MessageEmbed()
+    let thing = new EmbedBuilder()
       .setColor(client.embedColor)
       .setTimestamp()
       .setDescription(`${emojieject} Removed\n[${song.title}](${song.uri})`)

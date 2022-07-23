@@ -2,7 +2,7 @@
   "name": "xbftw-bot",
   "description": "XBFTW-A Multipurpose Discord Bot",
   "repository": "https://github.com/XBFTW/XBFTW-BOT",
-  "logo": "https://media.discordapp.net/attachments/876035356460462090/888434725235097610/20210820_124325.png",
+  "logo": "https://xbftw.com/assets/img/xbftw.png",
   "keywords": ["discord", "discordjs", "music"],
   "env": {    
     "MONGO_URI": {

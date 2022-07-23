@@ -1,9 +1,9 @@
-const { CommandInteraction, Client, MessageEmbed } = require("discord.js");
+const { CommandInteraction, Client, EmbedBuilder } = require("discord.js");
 
 module.exports = {
   name: "skip",
   description: "To skip a song/track from the queue.",
-  permissions: [],
+  userPrems: [],
   player: true,
   dj: true,
   inVoiceChannel: true,
@@ -27,23 +27,23 @@ module.exports = {
     if (player && player.state !== "CONNECTED") {
       player.destroy();
       return await interaction.editReply({
-        embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`Nothing is playing right now.`)]
+        embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`Nothing is playing right now.`)]
       }).catch(() => { });
     };
     if (!player.queue) return await interaction.editReply({
-      embeds: [new MessageEmbed().setColor(client.embedColor).setDescription("Nothing is playing right now.")]
+      embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription("Nothing is playing right now.")]
     }).catch(() => { });
     if (!player.queue.current) return await interaction.editReply({
-      embeds: [new MessageEmbed().setColor(client.embedColor).setDescription("Nothing is playing right now.")]
+      embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription("Nothing is playing right now.")]
     }).catch(() => { });
 
     if (!player.queue.size) return await interaction.editReply({
-      embeds: [new MessageEmbed().setColor(client.embedColor).setDescription("No songs left in the queue to skip.")]
+      embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription("No songs left in the queue to skip.")]
     }).catch(() => { });
 
     player.stop();
     return await interaction.editReply({
-      embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`${emojiskip} **Skipped** \n[${player.queue.current.title}](${player.queue.current.uri})`)]
+      embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`${emojiskip} **Skipped** \n[${player.queue.current.title}](${player.queue.current.uri})`)]
     }).catch(() => { });
   }
 }

@@ -1,9 +1,9 @@
-const { CommandInteraction, Client, MessageEmbed } = require("discord.js");
+const { CommandInteraction, Client, ApplicationCommandOptionType, EmbedBuilder } = require("discord.js");
 
 module.exports = {
   name: "loop",
   description: "Toggle music loop",
-  permissions: [],
+  userPrems: [],
   player: true,
   dj: true,
   inVoiceChannel: true,
@@ -12,7 +12,7 @@ module.exports = {
     {
       name: "input",
       description: "The looping input (track or queue).",
-      type: "STRING",
+      type: ApplicationCommandOptionType.String,
       required: true,
       choices: [
         {
@@ -39,7 +39,7 @@ module.exports = {
 
     let player = client.manager.get(interaction.guildId);
     if (!player.queue.current) {
-      let thing = new MessageEmbed()
+      let thing = new EmbedBuilder()
         .setColor("RED")
         .setDescription("There is no music playing.");
       return message.channel.send({ embeds: [thing] });
@@ -50,27 +50,27 @@ module.exports = {
       if (player.trackRepeat) {
         player.setTrackRepeat(false);
         return await interaction.editReply({
-          embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`${emojiloop} Loop track is now disable`)]
+          embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`${emojiloop} Loop track is now disable`)]
         })
       } else {
         player.setTrackRepeat(true);
         return await interaction.editReply({
-          embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`${emojiloop} Loop track is now enable`)]
+          embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`${emojiloop} Loop track is now enable`)]
         })
       }
     } else if (input === "queue") {
       if (!player.queue.size) return await interaction.editReply({
-        embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`No more songs left in the queue to loop`)]
+        embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`No more songs left in the queue to loop`)]
       })
       if (player.queueRepeat) {
         player.setQueueRepeat(false);
         return await interaction.editReply({
-          embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`${emojiloop} Loop queue is now disable`)]
+          embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`${emojiloop} Loop queue is now disable`)]
         })
       } else {
         player.setQueueRepeat(true);
         return await interaction.editReply({
-          embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`${emojiloop} Loop queue is now enable`)]
+          embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`${emojiloop} Loop queue is now enable`)]
         })
       };
     }

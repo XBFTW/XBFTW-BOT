@@ -1,4 +1,4 @@
-const { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js");
+const { EmbedBuilder, ButtonBuilder, ActionRowBuilder } = require("discord.js");
 const db = require("../../schema/playlist");
 const { convertTime } = require("../../utils/convert.js");
 const lodash = require("lodash");
@@ -8,9 +8,9 @@ module.exports = {
     aliases: ["plinfo"],
     category: "Playlist",
     description: "Get information about your saved playlist.",
-    args: false,
+    args: true,
     usage: "<playlist name>",
-    permission: [],
+    userPerms: [],
     owner: false,
     player: true,
     inVoiceChannel: true,
@@ -20,12 +20,16 @@ module.exports = {
         const Name = args[0].replace(/_/g, ' ');
         const data = await db.findOne({ UserId: message.author.id, PlaylistName: Name });
         if (!data) {
-            return message.reply({ embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`You don't have a playlist with **${Name}** name`)] });
+            return message.reply({ embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`You don't have a playlist called **${Name}**.`)] });
         }
         let tracks = data.Playlist.map((x, i) => `\`${+i}\` - ${x.title && x.uri ? `[${x.title}](${x.uri})` : `${x.title}`}${x.duration ? ` - \`${convertTime(Number(x.duration))}\`` : ""}`);
         const pages = lodash.chunk(tracks, 10).map((x) => x.join("\n"));
         let page = 0;
-        const embed = new MessageEmbed()
+
+        const pname = data.PlaylistName;
+        const plist = data.Playlist.length;
+
+        const embed = new EmbedBuilder()
             .setTitle(`${message.author.username}'s Playlists`)
             .setColor(client.embedColor)
             .setDescription(`**Playlist Name** ${pname} **Total Tracks** \`${plist}\`\n\n${pages[page]}`)
@@ -33,13 +37,13 @@ module.exports = {
             return await message.reply({ embeds: [embed] })
         } else {
 
-            let previousbut = new MessageButton().setCustomId("Previous").setEmoji("⏪").setStyle("SECONDARY");
+            let previousbut = new ButtonBuilder().setCustomId("Previous").setEmoji("⏪").setStyle(ButtonStyle.Secondary);
 
-            let nextbut = new MessageButton().setCustomId("Next").setEmoji("⏩").setStyle("SECONDARY");
+            let nextbut = new ButtonBuilder().setCustomId("Next").setEmoji("⏩").setStyle(ButtonStyle.Secondary);
 
-            let stopbut = new MessageButton().setCustomId("stop").setEmoji("⏹️").setStyle("SECONDARY");
+            let stopbut = new ButtonBuilder().setCustomId("Stop").setEmoji("⏹️").setStyle(ButtonStyle.Secondary);
 
-            const row = new MessageActionRow().addComponents(previousbut, stopbut, nextbut);
+            const row = new ActionRowBuilder().addComponents(previousbut, stopbut, nextbut);
 
             const m = await message.reply({ embeds: [embed], components: [row] });
 
@@ -54,7 +58,7 @@ module.exports = {
 
             collector.on("end", async () => {
                 if (!m) return;
-                await m.edit({ components: [new MessageActionRow().addComponents(previousbut.setDisabled(true), stopbut.setDisabled(true), nextbut.setDisabled(true))] });
+                await m.edit({ components: [new ActionRowBuilder().addComponents(previousbut.setDisabled(true), stopbut.setDisabled(true), nextbut.setDisabled(true))] });
             });
 
             collector.on("collect", async (b) => {
@@ -68,7 +72,7 @@ module.exports = {
                     return await m.edit({ embeds: [embed] });
                 } else if (b.customId === "Stop") {
                     return collector.stop();
-                } else if (b.customId === "playlist_cmd_uwu-next")
+                } else if (b.customId === "Next")
                     page = page + 1 >= pages.length ? 0 : ++page;
                 if (!m) return;
 
