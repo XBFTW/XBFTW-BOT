@@ -29,10 +29,10 @@ module.exports = {
 			);
 
           const mainPage = new EmbedBuilder()
-          .setAuthor({ name: 'XBFTW', iconURL: 'https://i.imgur.com/iShBdTX.png'})
-          .setThumbnail('https://i.imgur.com/iShBdTX.png')
-          .setColor('#303236')
-          .addField('Invite XBFTW-BOT to your server', `[Here](https://discord.com/api/oauth2/authorize?client_id=808588275831930890&permissions=8&scope=bot%20applications.commands)`, true)
-         message.reply({embeds: [mainPage], components: [row]})
+            .setAuthor({ name: 'XBFTW', iconURL: 'https://xbftw.com/assets/img/xbftw.png'})
+            .setThumbnail('https://xbftw.com/assets/img/xbftw.png')
+            .setColor('#303236')
+            .addFields([{ name: 'Invite XBFTW-BOT', value: `[Here](https://discord.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=36768832&scope=applications.commands%20bot)`}])
+             message.reply({embeds: [mainPage], components: [row]})
   }
 }
