@@ -1,4 +1,4 @@
-const { MessageEmbed, CommandInteraction, Client } = require("discord.js");
+const { EmbedBuilder, CommandInteraction, Client } = require("discord.js");
 
 module.exports = {
   name: "autoplay",
@@ -15,12 +15,17 @@ module.exports = {
 
   run: async (client, interaction) => {
     await interaction.deferReply({});
-    const player = interaction.client.manager.get(interaction.guildId);
+    const player = client.manager.get(interaction.guildId);
 
     const autoplay = player.get("autoplay");
 
     const emojireplay = client.emoji.autoplay;
-
+    
+    if (!player.queue.current)
+      return interaction.reply({
+        content: `Please start a song before doing this action`,
+      });
+    
     if (autoplay === false) {
       const identifier = player.queue.current.identifier;
       player.set("autoplay", true);
@@ -29,7 +34,7 @@ module.exports = {
       const search = `https://www.youtube.com/watch?v=${identifier}&list=RD${identifier}`;
       res = await player.search(search, interaction.user);
       player.queue.add(res.tracks[1]);
-      let thing = new MessageEmbed()
+      let thing = new EmbedBuilder()
         .setColor(client.embedColor)
         .setTimestamp()
         .setDescription(`${emojireplay} Autoplay is now **enabled**`);
@@ -37,7 +42,7 @@ module.exports = {
     } else {
       player.set("autoplay", false);
       player.queue.clear();
-      let thing = new MessageEmbed()
+      let thing = new EmbedBuilder()
         .setColor(client.embedColor)
         .setTimestamp()
         .setDescription(`${emojireplay} Autoplay is now **disabled**`);

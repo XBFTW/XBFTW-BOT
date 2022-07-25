@@ -1,9 +1,9 @@
-const { MessageEmbed, CommandInteraction, Client, MessageActionRow, MessageButton } = require("discord.js");
+const { EmbedBuilder, CommandInteraction, Client, ActionRowBuilder, ButtonBuilder, ApplicationCommandOptionType } = require("discord.js");
 const db = require("../../schema/playlist");
 
 module.exports = {
     name: "removetrack",
-    description: "Removetrack from your saved Playlists.",
+    description: "Remove a track from your saved Playlists.",
     player: false,
     inVoiceChannel: false,
     sameVoiceChannel: false,
@@ -12,13 +12,13 @@ module.exports = {
             name: "name",
             description: "Playlist Name",
             required: true,
-            type: "STRING"
+            type: ApplicationCommandOptionType.String
         },
         {
             name: "number",
             description: "Song Number",
             required: true,
-            type: "STRING"
+            type: ApplicationCommandOptionType.String
         }
     ],
     /**
@@ -35,18 +35,18 @@ module.exports = {
         const data = await db.findOne({ UserId: interaction.member.user.id, PlaylistName: Name });
 
         if (!data) {
-            return interaction.editReply({ embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`You don't have a playlist with **${Name}** name`)] });
+            return interaction.editReply({ embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`You don't have a playlist called **${Name}**.`)] });
         }
         if (data.length == 0) {
-            return interaction.editReply({ embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`You don't have a playlist with **${Name}** name`)] });
+            return interaction.editReply({ embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`You don't have a playlist called **${Name}**.`)] });
         }
         const Options = interaction.options.getString("number");
         if (!Options || isNaN(Options)) {
-            return interaction.editReply({ embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`You didn't entered track number (the Track you want to remove (ID OF IT))\nSee all your Tracks: ${prefix}info ${Name}`)] });
+            return interaction.editReply({ embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`You didn't enter a track number (the Track you want to remove (ID OF IT))\nSee all your Tracks: ${prefix}info ${Name}`)] });
         }
         let tracks = data.Playlist;
         if (Number(Options) >= tracks.length || Number(Options) < 0) {
-            return interaction.editReply({ embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`Your provided track number is out of Range (\`0\` - ${tracks.length - 1})\nSee all your Tracks: \`${prefix}info\` showdetails ${Name}`)] });
+            return interaction.editReply({ embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`Your provided track number is out of Range (\`0\` - ${tracks.length - 1})\nSee all your Tracks: \`${prefix}info\` showdetails ${Name}`)] });
 
         }
         await db.updateOne({
@@ -58,7 +58,7 @@ module.exports = {
                     Playlist: data.Playlist[Options]
                 }
             });
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
             .setColor(client.embedColor)
             .setDescription(`Removed **${tracks[Options].title}** from \`${Name}\``);
             return interaction.editReply({embeds: [embed]});

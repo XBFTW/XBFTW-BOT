@@ -1,9 +1,9 @@
-const { MessageEmbed, CommandInteraction, Client } = require("discord.js")
+const { EmbedBuilder, CommandInteraction, Client } = require("discord.js")
 
 module.exports = {
   name: "clearqueue",
   description: "Clear Queue",
-  permissions: [],
+  userPrems: [],
   player: true,
   dj: true,
   inVoiceChannel: true,
@@ -24,7 +24,7 @@ module.exports = {
 
     const emojieject = client.emoji.remove;
 
-    let thing = new MessageEmbed()
+    let thing = new EmbedBuilder()
       .setColor(client.embedColor)
       .setTimestamp()
       .setDescription(`${emojieject} Removed all songs from the queue`)

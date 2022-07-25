@@ -9,17 +9,21 @@ RUN npm install
 COPY . .
 
 ENV TOKEN=
-ENV PREFIX=
-ENV OWNERID=
+ENV CLIENT_ID=
+ENV PREFIX=!
+ENV OWNERID=415687999641354250
 ENV SPOTIFYID=
 ENV SPOTIFYSECRET=
 ENV MONGO_URI=
 ENV COlOR=
-ENV LOGS=
-ENV NODE_HOST=connect.freelavalink.ga
+ENV LOGS=957219129457274901
+ENV IMG=https://xbftw.com/assets/img/xbftw.png
+ENV SUPPORT=https://xbftw.com/discord
+ENV INVITE=https://xbftw.com/bot/invite
+ENV NODE_HOST=lavalink.xbftw.com
 ENV NODE_ID=
 ENV NODE_PORT=2000
-ENV NODE_PASSWORD=www.freelavalink.ga
+ENV NODE_PASSWORD=youshallnotpass
 ENV NODE_SECURE=false
 
 

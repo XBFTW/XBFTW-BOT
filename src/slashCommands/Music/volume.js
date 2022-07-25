@@ -1,9 +1,9 @@
-const { CommandInteraction, Client, MessageEmbed } = require("discord.js");
+const { CommandInteraction, Client, EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
 
 module.exports = {
   name: "volume",
   description: "Changes volume of currently playing music.",
-  permissions: [],
+  userPrems: [],
   player: true,
   dj: true,
   inVoiceChannel: true,
@@ -11,9 +11,9 @@ module.exports = {
   options: [
     {
       name: "number",
-      description: "give your volume number ",
+      description: "Give your volume number between 0 and 100",
       required: true,
-      type: "NUMBER"
+      type: ApplicationCommandOptionType.Number,
     }
   ],
 
@@ -35,26 +35,26 @@ module.exports = {
 
     const player = client.manager.get(interaction.guildId);
     if (!player) return await interaction.editReply({
-      embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`There is no music playing.`)]
+      embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`There is no music playing.`)]
     }).catch(() => { });
     if (!player.queue.current) return await interaction.editReply({
-      embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`There is no music playing.`)]
+      embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`There is no music playing.`)]
     }).catch(() => { });
     const volume = Number(vol);
     if (!volume || volume < 0 || volume > 100) return await interaction.editReply({
-      embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`Usage: ${client.prefix}volume <Number of volume between 0 - 100>`)]
+      embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`Usage: ${client.prefix}volume <Number of volume between 0 - 100>`)]
     }).catch(() => { });
 
     player.setVolume(volume);
     if (volume > player.volume) return await interaction.editReply({
-      embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`${emojivolume} Volume set to: **${volume}%**`)]
+      embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`${emojivolume} Volume set to: **${volume}%**`)]
     }).catch(() => { });
     else if (volume < player.volume) return await interaction.editReply({
-      embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`${emojivolume} Volume set to: **${volume}%**`)]
+      embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`${emojivolume} Volume set to: **${volume}%**`)]
     }).catch(() => { });
     else
       await interaction.editReply({
-        embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`${emojivolume} Volume set to: **${volume}%**`)]
+        embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`${emojivolume} Volume set to: **${volume}%**`)]
       }).catch(() => { });
   }
 }

@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
     name: "node",
@@ -6,12 +6,12 @@ module.exports = {
     description: "Check node information",
     args: false,
     usage: "",
-    permission: [],
+    userPerms: [],
     owner: false,
- execute: async (message, args, client, prefix) => {
-  
-  
-     const all = client.manager.nodes.map(node => 
+    execute: async (message, args, client, prefix) => {
+
+
+        const all = client.manager.nodes.map(node =>
             `Node ${(node.options.identifier)} Connected` +
             `\nPlayer: ${node.stats.players}` +
             `\nPlaying Players: ${node.stats.playingPlayers}` +
@@ -27,10 +27,10 @@ module.exports = {
             `\nLavalink Load: ${(Math.round(node.stats.cpu.lavalinkLoad * 100) / 100).toFixed(2)}%`
         ).join('\n\n----------------------------\n');
 
-        const embed = new MessageEmbed()
-            .setAuthor({ name: 'Lavalink Node', iconURL: client.user.displayAvatarURL()})
+        const embed = new EmbedBuilder()
+            .setAuthor({ name: 'Lavalink Node', iconURL: client.user.displayAvatarURL() })
             .setDescription(`\`\`\`${all}\`\`\``)
             .setColor(client.embedColor)
-        message.reply({embeds: [embed]})
+        message.reply({ embeds: [embed] })
     }
-                                          }
+}

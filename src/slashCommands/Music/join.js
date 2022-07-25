@@ -1,9 +1,9 @@
-const { MessageEmbed, CommandInteraction, Client, Permissions } = require("discord.js")
+const { EmbedBuilder, CommandInteraction, Client, PermissionFlagsBits } = require("discord.js")
 
 module.exports = {
   name: "join",
   description: "Join voice channel",
-  permissions: [],
+  userPrems: [],
   player: false,
   inVoiceChannel: true,
   sameVoiceChannel: true,
@@ -19,12 +19,12 @@ module.exports = {
     });
     let player = interaction.client.manager.get(interaction.guildId);
     if (player && player.voiceChannel && player.state === "CONNECTED") {
-      return await interaction.editReply({ embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`I'm already connected to <#${player.voiceChannel}> voice channel!`)] })
+      return await interaction.editReply({ embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`I'm already connected to <#${player.voiceChannel}> voice channel!`)] })
     } else {
-      if (!interaction.guild.me.permissions.has([Permissions.FLAGS.CONNECT, Permissions.FLAGS.SPEAK])) return interaction.editReply({ embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`I don't have enough permissions to execute this command! please give me permission \`CONNECT\` or \`SPEAK\`.`)] });
+      if (!interaction.guild.members.me.permissions.has([PermissionFlagsBits.Connect, PermissionFlagsBits.Speak])) return interaction.editReply({ embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`I don't have enough permissions to execute this command! please give me permission \`CONNECT\` or \`SPEAK\`.`)] });
       const { channel } = interaction.member.voice;
-      if (!interaction.guild.me.permissionsIn(channel).has([Permissions.FLAGS.CONNECT, Permissions.FLAGS.SPEAK])) return interaction.editReply({ embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`I don't have enough permissions connect your vc please give me permission \`CONNECT\` or \`SPEAK\`.`)] });
-      if (!interaction.guild.me.permissions.has([Permissions.FLAGS.CONNECT, Permissions.FLAGS.SPEAK])) return interaction.editReply({ embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`I don't have enough permissions to execute this command.`)] });
+      if (!interaction.guild.members.me.permissionsIn(channel).has([PermissionFlagsBits.Connect , PermissionFlagsBits.Speak])) return interaction.editReply({ embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`I don't have enough permissions connect your vc please give me permission \`CONNECT\` or \`SPEAK\`.`)] });
+      if (!interaction.guild.members.me.permissions.has([PermissionFlagsBits.Connect , PermissionFlagsBits.Speak])) return interaction.editReply({ embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`I don't have enough permissions to execute this command.`)] });
 
       const emojiJoin = client.emoji.join;
 
@@ -37,9 +37,9 @@ module.exports = {
       })
       if (player && player.state !== "CONNECTED") player.connect();
 
-      let thing = new MessageEmbed()
+      let thing = new EmbedBuilder()
         .setColor(client.embedColor)
-        .setDescription(`${emojiJoin} **Join the voice channel**\nJoined <#${channel.id}> and bound to <#${interaction.channel.id}>`)
+        .setDescription(`${emojiJoin} **Joined the voice channel**\nJoined <#${channel.id}> and bound to <#${interaction.channel.id}>`)
       return interaction.editReply({ embeds: [thing] });
 
     };

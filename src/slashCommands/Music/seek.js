@@ -1,11 +1,11 @@
-const { CommandInteraction, Client, MessageEmbed } = require("discord.js");
+const { CommandInteraction, Client, EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
 const { convertTime } = require('../../utils/convert.js')
 const ms = require('ms');
 
 module.exports = {
     name: "seek",
     description: "Seek the currently playing song",
-    permissions: [],
+    userPrems: [],
     player: true,
     dj: true,
     inVoiceChannel: true,
@@ -15,7 +15,7 @@ module.exports = {
             name: "time",
             description: "<10s || 10m || 10h>",
             required: true,
-            type: "STRING"
+            type: ApplicationCommandOptionType.String
         }
     ],
 
@@ -33,7 +33,7 @@ module.exports = {
         const player = interaction.client.manager.get(interaction.guildId);
 
         if (!player.queue.current) {
-            let thing = new MessageEmbed()
+            let thing = new EmbedBuilder()
                 .setColor("RED")
                 .setDescription("There is no music playing.");
             return await interaction.editReply({ embeds: [thing] });
@@ -51,21 +51,21 @@ module.exports = {
         if (time <= duration) {
             if (time > position) {
                 player.seek(time);
-                let thing = new MessageEmbed()
+                let thing = new EmbedBuilder()
                     .setDescription(`${emojiforward} **Forward**\n[${song.title}](${song.uri})\n\`${convertTime(time)} / ${convertTime(duration)}\``)
                     .setColor(client.embedColor)
                     .setTimestamp()
                 return await interaction.editReply({ embeds: [thing] });
             } else {
                 player.seek(time);
-                let thing = new MessageEmbed()
+                let thing = new EmbedBuilder()
                     .setDescription(`${emojirewind} **Rewind**\n[${song.title}](${song.uri})\n\`${convertTime(time)} / ${convertTime(duration)}\``)
                     .setColor(client.embedColor)
                     .setTimestamp()
                 return await interaction.editReply({ embeds: [thing] });
             }
         } else {
-            let thing = new MessageEmbed()
+            let thing = new EmbedBuilder()
                 .setColor("RED")
                 .setDescription(`Seek duration exceeds Song duration.\nSong duration: \`${convertTime(duration)}\``);
             return await interaction.editReply({ embeds: [thing] });

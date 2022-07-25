@@ -1,10 +1,10 @@
-const { MessageEmbed, MessageButton, MessageActionRow, Permissions, Client, CommandInteraction } = require("discord.js");
+const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, PermissionsBitField, Client, CommandInteraction, ApplicationCommandOptionType } = require("discord.js");
 const { convertTime } = require("../../utils/convert");
 
 module.exports = {
     name: "search",
-    description: "search for a song from youtube",
-    permissions: [],
+    description: "Search for a song from youtube",
+    userPrems: [],
     player: false,
     inVoiceChannel: true,
     sameVoiceChannel: true,
@@ -13,7 +13,7 @@ module.exports = {
             name: "input",
             description: "The search input (name/url)",
             required: true,
-            type: "STRING"
+            type: ApplicationCommandOptionType.String
         }
     ],
 
@@ -28,9 +28,9 @@ module.exports = {
         });
 
         const query = interaction.options.getString("input");
-        if (!interaction.guild.me.permissions.has([Permissions.FLAGS.CONNECT, Permissions.FLAGS.SPEAK])) return interaction.editReply({ embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`I don't have enough permissions to execute this command! please give me permission \`CONNECT\` or \`SPEAK\`.`)] });
+        if (!interaction.guild.members.me.permissions.has(PermissionsBitField.resolve(['Speak', 'Connect']))) return interaction.editReply({ embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`I don't have enough permissions to execute this command! please give me permission \`CONNECT\` or \`SPEAK\`.`)] });
         const { channel } = interaction.member.voice;
-        if (!interaction.guild.me.permissionsIn(channel).has([Permissions.FLAGS.CONNECT, Permissions.FLAGS.SPEAK])) return interaction.editReply({ embeds: [new MessageEmbed().setColor(client.embedColor).setDescription(`I don't have enough permissions connect your vc please give me permission \`CONNECT\` or \`SPEAK\`.`)] });
+        if (!interaction.guild.members.cache.get(client.user.id).permissionsIn(channel).has(PermissionsBitField.resolve(['Speak', 'Connect']))) return interaction.editReply({ embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`I don't have enough permissions connect your vc please give me permission \`CONNECT\` or \`SPEAK\`.`)] });
 
         let player = interaction.client.manager.get(interaction.guildId);
         if (!player)
@@ -43,12 +43,12 @@ module.exports = {
             })
         if (player && player.state !== "CONNECTED") player.connect();
 
-        const but = new MessageButton().setCustomId("s_one").setLabel("1").setStyle("SUCCESS");
-        const but2 = new MessageButton().setCustomId("s_two").setLabel("2").setStyle("SUCCESS");
-        const but3 = new MessageButton().setCustomId("s_three").setLabel("3").setStyle("SUCCESS");
-        const but4 = new MessageButton().setCustomId("s_four").setLabel("4").setStyle("SUCCESS");
-        const but5 = new MessageButton().setCustomId("s_five").setLabel("5").setStyle("SUCCESS");
-        const row = new MessageActionRow().addComponents(but, but2, but3, but4, but5);
+        const but = new ButtonBuilder().setCustomId("s_one").setLabel("1").setStyle(ButtonStyle.Success);
+        const but2 = new ButtonBuilder().setCustomId("s_two").setLabel("2").setStyle(ButtonStyle.Success);
+        const but3 = new ButtonBuilder().setCustomId("s_three").setLabel("3").setStyle(ButtonStyle.Success);
+        const but4 = new ButtonBuilder().setCustomId("s_four").setLabel("4").setStyle(ButtonStyle.Success);
+        const but5 = new ButtonBuilder().setCustomId("s_five").setLabel("5").setStyle(ButtonStyle.Success);
+        const row = new ActionRowBuilder().addComponents(but, but2, but3, but4, but5);
 
         const emojiplaylist = client.emoji.playlist;
 
@@ -56,7 +56,7 @@ module.exports = {
         switch (s.loadType) {
             case "TRACK_LOADED":
                 player.queue.add(s.tracks[0]);
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setDescription(`${emojiplaylist} **Added to queue** - [${s.tracks[0].title}](${s.tracks[0].uri}) \`${convertTime(s.tracks[0].duration, true)}\` • ${s.tracks[0].requester}`)
                     .setColor(client.embedColor)
 
@@ -68,13 +68,13 @@ module.exports = {
                 const tracks = s.tracks.slice(0, 5);
                 const results = s.tracks.slice(0, 5).map(x => `• ${index++} | [${x.title}](${x.uri}) \`${convertTime(x.duration)}\``)
                     .join("\n");
-                const searched = new MessageEmbed()
+                const searched = new EmbedBuilder()
                     .setTitle("Select the track that you want")
                     .setColor(client.embedColor)
                     .setDescription(results);
 
                 await interaction.editReply({ embeds: [searched], components: [row] });
-                const search = new MessageEmbed()
+                const search = new EmbedBuilder()
                     .setColor(client.embedColor);
 
                 const collector = interaction.channel.createMessageComponentCollector({
@@ -84,7 +84,7 @@ module.exports = {
                     idle: 60000 / 2
                 });
                 collector.on("end", async (collected) => {
-                    await interaction.editReply({ components: [new MessageActionRow().addComponents(but.setDisabled(true), but2.setDisabled(true), but3.setDisabled(true), but4.setDisabled(true), but5.setDisabled(true))] })
+                    await interaction.editReply({ components: [new ActionRowBuilder().addComponents(but.setDisabled(true), but2.setDisabled(true), but3.setDisabled(true), but4.setDisabled(true), but5.setDisabled(true))] })
 
                 });
                 collector.on("collect", async (b) => {

@@ -1,9 +1,8 @@
-const { MessageEmbed, CommandInteraction, Client } = require("discord.js")
+const { EmbedBuilder, CommandInteraction, Client } = require("discord.js")
 
 module.exports = {
     name: "ping",
-    description: "return websocket ping",
-
+    description: "Return websocket ping",
     /**
      * 
      * @param {Client} client 
@@ -20,8 +19,8 @@ module.exports = {
 
             await interaction.editReply({
                 content: "`🏓`",
-                embeds: [new MessageEmbed().setAuthor({name: `Pong`, iconURL: client.user.displayAvatarURL({ dynamic: true })}).setColor(client.embedColor).setFooter({text: `Requested by ${interaction.member.user.username}`, iconURL: interaction.member.user.displayAvatarURL({ dynamic: true })}).addFields([{ name: "Bot Latency", value: `\`\`\`ini\n[ ${ping}ms ]\n\`\`\``, inline: true }, { name: "API Latency", value: `\`\`\`ini\n[ ${api_ping}ms ]\n\`\`\``, inline: true }]).setTimestamp()]
+                embeds: [new EmbedBuilder().setAuthor({ name: `Pong`, iconURL: client.user.displayAvatarURL() }).setColor(client.embedColor).setFooter({ text: `Requested by ${interaction.user.username}`, iconURL: interaction.user.displayAvatarURL() }).addFields([{ name: "Bot Latency", value: `\`\`\`ini\n[ ${ping}ms ]\n\`\`\``, inline: true }, { name: "API Latency", value: `\`\`\`ini\n[ ${api_ping}ms ]\n\`\`\``, inline: true }]).setTimestamp()]
             });
         })
     }
-			}
+}

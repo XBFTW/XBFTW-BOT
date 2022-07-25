@@ -1,8 +1,8 @@
-const { MessageEmbed, CommandInteraction, Client } = require("discord.js")
+const { EmbedBuilder, CommandInteraction, Client } = require("discord.js")
 
 module.exports = {
     name: "node",
-    description: "check lavalink server information",
+    description: "Check lavalink server information",
 
     /**
      * 
@@ -30,7 +30,7 @@ module.exports = {
             `\nLavalink Load: ${(Math.round(node.stats.cpu.lavalinkLoad * 100) / 100).toFixed(2)}%`
         ).join('\n\n----------------------------\n');
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setAuthor({name: 'Lavalink Node', iconURL: client.user.displayAvatarURL()})
             .setDescription(`\`\`\`${all}\`\`\``)
             .setColor(client.embedColor)
