@@ -76,7 +76,7 @@ Then Turn On Both Of Those Settings And Click "Save Changes" Then Your Are Done 
 
 ## 🐳 Installation Using Docker
 
-If you are on a Debian based OS such as Ubuntu, you can ruin this docker container. I haven't tested this on Windows and I probably won't, so if you are on Windows, you can use the Direct installation.
+If you are on a Debian based OS such as Ubuntu, you can run this docker container. I haven't tested this on Windows and I probably won't, so if you are on Windows, you can use the Direct installation.
  
 ```
 #Create the volume
