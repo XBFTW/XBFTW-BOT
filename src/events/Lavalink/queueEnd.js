@@ -16,7 +16,7 @@ module.exports = async (client, player) => {
 
 	try {
 
-		message = await channel.messages.fetch({message: data.Message, cache: true });
+		message = await channel.messages.fetch(data.Message, { cache: true });
 
 	} catch (e) { };
 
@@ -29,13 +29,4 @@ module.exports = async (client, player) => {
 		.setAuthor({name: `Queue Concluded`, iconURL: client.user.displayAvatarURL() })
 		.setDescription(`Enjoying music with me? Consider me by **Inviting**[Click Here](${invite})`)
 	channel.send({ embeds: [thing] }).then(msg => { setTimeout(() => { msg.delete() }, 5000) });
-	
-    if (!player.twentyFourSeven) {
-        
-    
-        await player.destroy();
-      } else {
-        
-        await player.stop();
-     }
 }

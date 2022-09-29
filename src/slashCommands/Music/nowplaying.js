@@ -4,7 +4,7 @@ const { progressbar } = require('../../utils/progressbar.js')
 
 module.exports = {
     name: "nowplaying",
-    description: "Show the current playing song.",
+    description: "Show the current playing song",
     userPrems: [],
     player: true,
     inVoiceChannel: false,
@@ -23,7 +23,7 @@ module.exports = {
 
         if (!player.queue.current) {
             let thing = new EmbedBuilder()
-                .setColor("Red")
+                .setColor("RED")
                 .setDescription("There is no music playing.");
             return interaction.editReply({embeds: [thing]});
         }

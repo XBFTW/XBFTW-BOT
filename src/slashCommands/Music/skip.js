@@ -2,7 +2,7 @@ const { CommandInteraction, Client, EmbedBuilder } = require("discord.js");
 
 module.exports = {
   name: "skip",
-  description: "Skip the song currently playing.",
+  description: "To skip a song/track from the queue.",
   userPrems: [],
   player: true,
   dj: true,
@@ -10,35 +10,40 @@ module.exports = {
   sameVoiceChannel: true,
 
   /**
-   *
-   * @param {Client} client
-   * @param {CommandInteraction} interaction
-   * @param {String} color
+   * 
+   * @param {Client} client 
+   * @param {CommandInteraction} interaction 
+   * @param {String} color 
    */
 
   run: async (client, interaction) => {
-    const player = interaction.client.manager.get(interaction.guild.id);
+    await interaction.deferReply({
+      ephemeral: false
+    });
 
-    if (!player.queue.current) {
-      let thing = new EmbedBuilder()
-        .setColor("Red")
-        .setDescription("There is no music playing.");
-      return interaction.reply({ embeds: [thing] });
-    }
-    const song = player.queue.current;
+    const emojiskip = client.emoji.skip;
+    const player = client.manager.get(interaction.guildId);
+
+    if (player && player.state !== "CONNECTED") {
+      player.destroy();
+      return await interaction.editReply({
+        embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`Nothing is playing right now.`)]
+      }).catch(() => { });
+    };
+    if (!player.queue) return await interaction.editReply({
+      embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription("Nothing is playing right now.")]
+    }).catch(() => { });
+    if (!player.queue.current) return await interaction.editReply({
+      embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription("Nothing is playing right now.")]
+    }).catch(() => { });
+
+    if (!player.queue.size) return await interaction.editReply({
+      embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription("No songs left in the queue to skip.")]
+    }).catch(() => { });
 
     player.stop();
-
-    const emojiskip = interaction.client.emoji.skip;
-
-    let thing = new EmbedBuilder()
-      .setDescription(`${emojiskip} **Skipped**\n[${song.title}](${song.uri})`)
-      .setColor(interaction.client.embedColor)
-      .setTimestamp();
-    return interaction.reply({ embeds: [thing], fetchReply: true }).then((msg) => {
-      setTimeout(() => {
-        msg.delete();
-      }, 3000);
-    });
-  },
-};
+    return await interaction.editReply({
+      embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`${emojiskip} **Skipped** \n[${player.queue.current.title}](${player.queue.current.uri})`)]
+    }).catch(() => { });
+  }
+}

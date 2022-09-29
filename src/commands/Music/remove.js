@@ -3,9 +3,9 @@ const { EmbedBuilder } = require("discord.js");
 module.exports = {
   	name: "remove",
     category: "Music",
-  	description: "Removes a song from the queue.",
+  	description: "Remove a song from the queue",
 	args: true,
-    usage: "<song # in queue>",
+    usage: "<Number of song in queue>",
     userPerms: [],
     dj: true,
     owner: false,
@@ -18,7 +18,7 @@ module.exports = {
 
         if (!player.queue.current) {
             let thing = new EmbedBuilder()
-                .setColor("Red")
+                .setColor("RED")
                 .setDescription("There is no music playing.");
             return message.reply({embeds: [thing]});
         }
@@ -27,8 +27,8 @@ module.exports = {
        if (position > player.queue.size) {
         const number = (position + 1);
          let thing = new EmbedBuilder()
-            .setColor("Red")
-            .setDescription(`No song was found at number ${number}.\nTotal Songs: ${player.queue.size}`);
+            .setColor("RED")
+            .setDescription(`No songs at number ${number}.\nTotal Songs: ${player.queue.size}`);
             return message.reply({embeds: [thing]});
         }
 

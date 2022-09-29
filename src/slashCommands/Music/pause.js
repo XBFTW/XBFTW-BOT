@@ -2,7 +2,7 @@ const { EmbedBuilder, CommandInteraction, Client } = require("discord.js")
 
 module.exports = {
   name: "pause",
-  description: "Pauses the music currently playing.",
+  description: "Pause the currently playing music",
   userPrems: [],
   dj: true,
   player: true,
@@ -34,7 +34,7 @@ module.exports = {
     if (player.paused) {
       let thing = new EmbedBuilder()
         .setColor("RED")
-        .setDescription(`${emojipause} The music is already paused.`)
+        .setDescription(`${emojipause} The player is already paused.`)
         .setTimestamp()
       return interaction.editReply({ embeds: [thing] });
     }

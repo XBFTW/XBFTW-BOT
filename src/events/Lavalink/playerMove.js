@@ -13,9 +13,8 @@ module.exports = async (client, player, oldChannel, newChannel) => {
         if(oldChannel === newChannel) return;
         if(newChannel === null || !newChannel) {
         if(!player) return;
-        if(channel) 
-          await player.destroy();
-          return channel.send({ embeds: [new EmbedBuilder().setDescription(`I've been disconnected from <#${oldChannel}>`)]})
+        if(channel) await  channel.send({ embeds: [new EmbedBuilder().setDescription(`I've been disconnected from <#${oldChannel}>`)]})
+         return player.destroy();
       } else {
         player.voiceChannel = newChannel;
         

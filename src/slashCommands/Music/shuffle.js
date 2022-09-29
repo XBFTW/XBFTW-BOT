@@ -2,7 +2,7 @@ const { EmbedBuilder, CommandInteraction, Client } = require("discord.js")
 
 module.exports = {
   name: "shuffle",
-  description: "Shuffle the queue.",
+  description: "Shuffle queue",
   userPrems: [],
   player: true,
   dj: true,
@@ -23,7 +23,7 @@ module.exports = {
     const player = interaction.client.manager.get(interaction.guildId);
     if (!player.queue.current) {
       let thing = new EmbedBuilder()
-        .setColor("Red")
+        .setColor("RED")
         .setDescription("There is no music playing.");
       return interaction.editReply({ embeds: [thing] });
     }
@@ -32,7 +32,7 @@ module.exports = {
     const emojishuffle = client.emoji.shuffle;
 
     let thing = new EmbedBuilder()
-      .setDescription(`${emojishuffle} Shuffled the queue.`)
+      .setDescription(`${emojishuffle} Shuffled the queue`)
       .setColor(client.embedColor)
       .setTimestamp()
     return interaction.editReply({ embeds: [thing] });

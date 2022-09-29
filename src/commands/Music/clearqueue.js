@@ -2,11 +2,11 @@ const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
     name: "clearqueue",
-    aliases: ["cq", "clear"],
+    aliases: ["cq"],
     category: "Music",
-    description: "Removes all songs in the music queue.",
+    description: "Clear Queue",
     args: false,
-    usage: "",
+    usage: "<Number of song in queue>",
     userPerms: [],
     dj: true,
     owner: false,
@@ -20,7 +20,7 @@ module.exports = {
         if (!player.queue.current) {
             let thing = new EmbedBuilder()
                 .setColor("RED")
-                .setDescription("No songs are currently in queue.");
+                .setDescription("There is no music playing.");
             return message.reply({ embeds: [thing] });
         }
 

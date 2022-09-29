@@ -2,7 +2,7 @@ const { CommandInteraction, Client, EmbedBuilder, ApplicationCommandOptionType }
 
 module.exports = {
   name: "skipto",
-  description: "Skip to a specific song.",
+  description: "Forward song",
   userPrems: [],
   player: true,
   dj: true,
@@ -11,7 +11,7 @@ module.exports = {
   options: [
     {
       name: "number",
-      description: "Song number in queue.",
+      description: "Select a song number",
       required: true,
       type: ApplicationCommandOptionType.Number,
     }
@@ -32,7 +32,7 @@ module.exports = {
 
     if (!player.queue.current) {
       let thing = new EmbedBuilder()
-        .setColor("Red")
+        .setColor("RED")
         .setDescription("There is no music playing.");
       return await interaction.editReply({ embeds: [thing] });
     }
@@ -41,8 +41,8 @@ module.exports = {
 
     if (!position || position < 0 || position > player.queue.size) {
       let thing = new EmbedBuilder()
-        .setColor("Red")
-        .setDescription(`Usage: ${prefix}skipto <song # in queue>`)
+        .setColor("RED")
+        .setDescription(`Usage: ${prefix}skipto <Number of song in queue>`)
       return await interaction.editReply({ embeds: [thing] });
     }
 
@@ -52,7 +52,7 @@ module.exports = {
     const emojijump = client.emoji.jump;
 
     let thing = new EmbedBuilder()
-      .setDescription(`${emojijump} Skipped to song **${position}**.`)
+      .setDescription(`${emojijump} Forward **${position}** Songs`)
       .setColor(client.embedColor)
       .setTimestamp()
 

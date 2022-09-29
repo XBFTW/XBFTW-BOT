@@ -3,7 +3,7 @@ const db = require("../../schema/playlist");
 const lodash = require("lodash");
 module.exports = {
     name: "list",
-    description: "List your created playlists.",
+    description: "To List The Playlist.",
     player: false,
     inVoiceChannel: false,
     sameVoiceChannel: false,
@@ -20,7 +20,7 @@ module.exports = {
         const data = await db.find({ UserId: interaction.member.user.id });
 
         if (!data.length) {
-            return interaction.editReply({ embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`You haven't created any playlists.`)] })
+            return interaction.editReply({ embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`You don't have any Playlist`)] })
         }
 
         let list = data.map((x, i) => `\`${++i}\` - ${x.PlaylistName} \`${x.Playlist.length}\` - <t:${x.CreatedOn}>`);
@@ -29,7 +29,7 @@ module.exports = {
         let List = list.length;
        
         const embeds = new EmbedBuilder()
-            .setAuthor({ name: `${interaction.user.username}'s Playlists`, iconURI: interaction.user.displayAvatarURL() })
+            .setAuthor({ name: `${interaction.user.username}'s Playlists}`, iconURI: interaction.user.displayAvatarURL() })
             .setDescription(pages[page])
             .setFooter({ text: `Playlist (${List} / 10)` })
             .setColor(client.embedColor);

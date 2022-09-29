@@ -3,7 +3,7 @@ const { EmbedBuilder } = require("discord.js");
 module.exports = {
   	name: "shuffle",
     category: "Music",
-    description: "Shuffle the queue.",
+    description: "Shuffle queue",
     args: false,
     usage: "",
     userPerms: [],
@@ -18,7 +18,7 @@ module.exports = {
 
         if (!player.queue.current) {
             let thing = new EmbedBuilder()
-                .setColor("Red")
+                .setColor("RED")
                 .setDescription("There is no music playing.");
             return message.reply({embeds: [thing]});
         }
@@ -27,10 +27,10 @@ module.exports = {
         const emojishuffle = client.emoji.shuffle;
 
         let thing = new EmbedBuilder()
-            .setDescription(`${emojishuffle} Shuffled the queue.`)
+            .setDescription(`${emojishuffle} Shuffled the queue`)
             .setColor(client.embedColor)
             .setTimestamp()
-        return message.reply({embeds: [thing]}).catch(error => client.logger.log(error, "Error"));
+        return message.reply({embeds: [thing]}).catch(error => client.logger.log(error, "error"));
 	
     }
 };

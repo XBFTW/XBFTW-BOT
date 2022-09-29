@@ -3,14 +3,14 @@ const db = require("../../schema/playlist");
 
 module.exports = {
     name: "savecurrent",
-    description: "Add the current playing song to your saved playlist.",
+    description: "Add current playing song in your saved playlist.",
     player: true,
     inVoiceChannel: true,
     sameVoiceChannel: true,
     options: [
         {
             name: "name",
-            description: "Playlist name.",
+            description: "Playlist Name",
             required: true,
             type: ApplicationCommandOptionType.String
         }
@@ -32,8 +32,8 @@ module.exports = {
         const player = client.manager.players.get(interaction.guildId);
         if (!player.queue.current) {
             let thing = new EmbedBuilder()
-                .setColor("Red")
-                .setDescription('Nothing is playing right now.')
+                .setColor("RED")
+                .setDescription(i18n.__("player.nomusic"));
             return interaction.editReply({ embeds: [thing] });
         }
         if (!data) {

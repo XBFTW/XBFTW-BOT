@@ -1,43 +1,37 @@
-const { EmbedBuilder, CommandInteraction } = require("discord.js");
-const MusicBot = require("../../structures/Client");
+const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
 const db = require("../../schema/dj");
 
 module.exports = {
   name: "removedj",
-  description: "Removes the DJ role.",
-  userPrems: ["ManageGuild"],
+  description: "Remove Dj Role",
+  userPrems: ["MangeGuild"],
   owner: false,
-
-  /**
-   *
-   * @param {MusicBot} client
-   * @param {CommandInteraction} interaction
-   */
-
+  options: [
+    {
+      name: "dj",
+      description: "give me a dj role to delete",
+      required: true,
+      type: ApplicationCommandOptionType.Role,
+    },
+  ],
   run: async (client, interaction) => {
     let data = await db.findOne({ Guild: interaction.guild.id });
     if (data) {
       await data.delete();
-      return await interaction
-        .reply({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(`Successfully removed all DJ roles.`)
-              .setColor(client.embedColor),
-          ],
-        })
-        .catch((err) => console.error("Promise Rejected At", err));
+      return interaction.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(`Successfully removed all DJ Roles.`)
+            .setColor(client.embedColor),
+        ],
+      });
     } else
-      return await interaction
-        .reply({
-          embeds: [
-            new EmbedBuilder()
-              .setDescription(
-                `You don't have any DJ roles setup in this guild!`
-              )
-              .setColor(client.embedColor),
-          ],
-        })
-        .catch((err) => console.error("Promise Rejected At", err));
+      return interaction.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(`You don't have any DJ setup in this Guild!`)
+            .setColor(client.embedColor),
+        ],
+      });
   },
 };

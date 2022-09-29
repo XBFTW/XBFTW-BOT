@@ -3,9 +3,9 @@ const db = require("../../schema/playlist");
 
 module.exports = {
     name: "load",
-    aliases: ["plload", "plplay"],
+    aliases: ["plload"],
     category: "Playlist",
-    description: "Play the saved playlist.",
+    description: "Play the saved Playlist.",
     args: true,
     usage: "<playlist name>",
     userPerms: [],
@@ -31,13 +31,13 @@ module.exports = {
         });
         
         if (player && player.state !== "CONNECTED") player.connect();
-
-        if (!data) {
-            return message.reply({ embeds: [new EmbedBuilder().setColor(color).setDescription("Playlist not found. Please enter the correct playlist name.")] })
-        }
-        if (!player) return;
         let length = data.PlaylistName;
         let name = Name;
+
+        if (!data) {
+            return message.reply({ embeds: [new EmbedBuilder().setColor(color).setDescription(`Playlist not found. Please enter the correct playlist name\n\nDo ${prefix}list to see your Playlists`)] })
+        }
+        if (!player) return;
         let count = 0;
         const m = await message.reply({ embeds: [new EmbedBuilder().setColor(color).setDescription(`Adding ${length} track(s) from your playlist **${name}** to the queue.`)] })
         for (const track of data.Playlist) {

@@ -4,9 +4,9 @@ const fetch = require("node-fetch");
 module.exports = {
   name: "lyrics",
   category: "Music",
-  description: "Gets the lyrics of a song.",
+  description: "Prints the lyrics of a song",
   userPrems: [],
-  usage: "<song name>",
+  usage: "lyrics <song name>",
   player: true,
   args: true,
   dj: false,
@@ -29,8 +29,8 @@ module.exports = {
       return message.channel.send({
         embeds: [
           new EmbedBuilder()
-            .setColor("Red")
-            .setDescription("Lavalink node is not connected."),
+            .setColor("RED")
+            .setDescription("Lavalink node is not connected"),
         ],
       });
     }
@@ -39,14 +39,14 @@ module.exports = {
       return message.channel.send({
         embeds: [
           new EmbedBuilder()
-            .setColor("Red")
-            .setDescription("There's no music playing."),
+            .setColor("RED")
+            .setDescription("There's nothing playing"),
         ],
       });
     }
 
     let search = args ? args : player.queue.current.title;
-    // Lavalink API for lyrics
+    // Lavalink api for lyrics
     let url = `https://api.darrennathanael.com/lyrics?song=${search}`;
 
     let lyrics = await fetch(url)
@@ -60,9 +60,9 @@ module.exports = {
       return message.channel.send({
         embeds: [
           new EmbedBuilder()
-            .setColor("Red")
+            .setColor("RED")
             .setDescription(
-              `❌ | No lyrics found for ${search}!\nMake sure you entered your search correctly.`
+              `❌ | No lyrics found for ${search}!\nMake sure you typed in your search correctly.`
             ),
         ],
       });

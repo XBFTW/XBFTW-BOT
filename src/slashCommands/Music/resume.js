@@ -2,7 +2,7 @@ const { EmbedBuilder, CommandInteraction, Client } = require("discord.js")
 
 module.exports = {
   name: "resume",
-  description: "Resume playing music.",
+  description: "Resume currently playing music",
   userPrems: [],
   player: true,
   dj: true,
@@ -25,7 +25,7 @@ module.exports = {
 
     if (!player.queue.current) {
       let thing = new EmbedBuilder()
-        .setColor("Red")
+        .setColor("RED")
         .setDescription("There is no music playing.");
       return interaction.editReply({ embeds: [thing] });
     }
@@ -34,7 +34,7 @@ module.exports = {
 
     if (!player.paused) {
       let thing = new EmbedBuilder()
-        .setColor("Red")
+        .setColor("RED")
         .setDescription(`${emojiresume} The player is already **resumed**.`)
         .setTimestamp()
       return interaction.editReply({ embeds: [thing] });

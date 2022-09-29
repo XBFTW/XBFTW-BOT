@@ -5,7 +5,7 @@ module.exports = {
     name: "savecurrent",
     aliases: ["plsavec"],
     category: "Playlist",
-    description: "Add the current playing song to your saved playlist.",
+    description: "Add current playing song in your saved playlist.",
     args: true,
     usage: "<playlist name>",
     userPerms: [],

@@ -6,7 +6,7 @@ module.exports = {
   	name: "seek",
   	aliases: [],
   	category: "Music",
-  	description: "Seek the currently playing song.",
+  	description: "Seek the currently playing song",
   	args: true,
     usage: "<10s || 10m || 10h>",
     userPerms: [],
@@ -21,7 +21,7 @@ module.exports = {
 
         if (!player.queue.current) {
             let thing = new EmbedBuilder()
-                .setColor("Red")
+                .setColor("RED")
                 .setDescription("There is no music playing.");
             return message.reply({embeds: [thing]});
         }
@@ -53,8 +53,8 @@ module.exports = {
             }
         } else {
             let thing = new EmbedBuilder()
-                .setColor("Red")
-                .setDescription(`Seek duration exceeds song duration.\nSong duration: \`${convertTime(duration)}\``);
+                .setColor("RED")
+                .setDescription(`Seek duration exceeds Song duration.\nSong duration: \`${convertTime(duration)}\``);
             return message.reply({embeds: [thing]});
         }
 	

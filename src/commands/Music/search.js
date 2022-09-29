@@ -1,12 +1,12 @@
-const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, PermissionFlagsBits, Permissions, ButtonStyle } = require("discord.js");
+const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, PermissionFlagsBits } = require("discord.js");
 const { convertTime } = require("../../utils/convert");
 
 module.exports = {
     name: "search",
-    description: "Search for a song on YouTube.",
+    description: "search for a song from youtube",
     category: "Music",
     aliases: [],
-    usage: [`<song>`],
+    usage: [`serach Never gonna give you up`],
     args: true,
     userPrems: [],
     owner: false,
@@ -16,7 +16,7 @@ module.exports = {
    execute: async (message, args, client) => { 
 
     const { channel } = message.member.voice;
-    if (!message.guild.members.me.permissionsIn(channel).has([PermissionFlagsBits.Connect, PermissionFlagsBits.Speak])) return message.channel.send({embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`I don't have enough permissions to connect to your VC. Please give me permission \`CONNECT\` or \`SPEAK\`.`)]});
+    if (!message.guild.members.me.permissionsIn(channel).has([PermissionFlagsBits.Connect, Permissions.Speak])) return message.channel.send({embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`I don't have enough permissions connect your vc please give me permission \`CONNECT\` or \`SPEAK\`.`)]});
     if (!message.guild.members.me.permissions.has([PermissionFlagsBits.Connect, PermissionFlagsBits.Speak])) return message.channel.send({embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`I don't have enough permissions to execute this command! please give me permission \`CONNECT\` or \`SPEAK\`.`)]});
 
     let player = message.client.manager.get(message.guildId);
@@ -60,7 +60,7 @@ module.exports = {
              const results = s.tracks.slice(0, 5).map(x => `• ${index++} | [${x.title}](${x.uri}) \`${convertTime(x.duration)}\``)
                     .join("\n");
                     const searched = new EmbedBuilder()
-                        .setTitle("Select the track that you want.")
+                        .setTitle("Select the track that you want")
                         .setColor(client.embedColor)
                         .setDescription(results);
 

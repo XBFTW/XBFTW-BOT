@@ -3,7 +3,7 @@ const { EmbedBuilder } = require("discord.js");
 module.exports = {
     name: "pause",
     category: "Music",
-    description: "Pauses the music currently playing.",
+    description: "Pause the currently playing music",
     args: false,
     usage: "",
     userPerms: [],
@@ -18,7 +18,7 @@ module.exports = {
 
         if (!player.queue.current) {
             let thing = new EmbedBuilder()
-                .setColor("Red")
+                .setColor("RED")
                 .setDescription("There is no music playing.");
             return message.reply({embeds: [thing]});
         }
@@ -27,8 +27,8 @@ module.exports = {
 
         if (player.paused) {
             let thing = new EmbedBuilder()
-                .setColor("Red")
-                .setDescription(`${emojipause} The music is already paused.`)
+                .setColor("RED")
+                .setDescription(`${emojipause} The player is already paused.`)
                 .setTimestamp()
                 return message.reply({embeds: [thing]});
         }
