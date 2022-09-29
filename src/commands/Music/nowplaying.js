@@ -6,7 +6,7 @@ module.exports = {
     name: "nowplaying",
     aliases: ["np"],
     category: "Music",
-    description: "Show the current playing song",
+    description: "Show the current playing song.",
     args: false,
     usage: "",
     userPerms: [],
@@ -20,9 +20,9 @@ execute: async (message, args, client, prefix) => {
 
         if (!player.queue.current) {
             let thing = new EmbedBuilder()
-                .setColor("RED")
+                .setColor("Red")
                 .setDescription("There is no music playing.");
-            return message.channel.send(thing);
+            return message.channel.send({ embeds: [thing] });
         }
         const song = player.queue.current
         const emojimusic = client.emoji.music;

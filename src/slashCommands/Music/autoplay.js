@@ -2,7 +2,7 @@ const { EmbedBuilder, CommandInteraction, Client } = require("discord.js");
 
 module.exports = {
   name: "autoplay",
-  description: "Toggle music autoplay",
+  description: "Toggle music autoplay.",
   player: true,
   inVoiceChannel: true,
   sameVoiceChannel: true,
@@ -14,40 +14,41 @@ module.exports = {
    */
 
   run: async (client, interaction) => {
-    await interaction.deferReply({});
-    const player = client.manager.get(interaction.guildId);
+    const player = client.manager.get(interaction.guild.id);
 
     const autoplay = player.get("autoplay");
 
     const emojireplay = client.emoji.autoplay;
-    
+
     if (!player.queue.current)
       return interaction.reply({
-        content: `Please start a song before doing this action`,
+        content: `Please play a song before using this command.`,
       });
-    
-    if (autoplay === false) {
+
+    await interaction.deferReply();
+    if (autoplay) {
+      player.set("autoplay", false);
+      let thing = new EmbedBuilder()
+        .setColor(client.embedColor)
+        .setTimestamp()
+        .setDescription(`${emojireplay} Autoplay is now **disabled**.`);
+      return interaction.editReply({ embeds: [thing] });
+    } else {
       const identifier = player.queue.current.identifier;
       player.set("autoplay", true);
-      player.set("requester", interaction.user);
+      player.set("requester", client.user);
       player.set("identifier", identifier);
       const search = `https://www.youtube.com/watch?v=${identifier}&list=RD${identifier}`;
-      res = await player.search(search, interaction.user);
-      player.queue.add(res.tracks[1]);
+      const res = await player.search(search, interaction.author);
+      player.queue.add(
+        res.tracks[Math.floor(Math.random() * res.tracks.length) ?? 1]
+      );
       let thing = new EmbedBuilder()
         .setColor(client.embedColor)
         .setTimestamp()
-        .setDescription(`${emojireplay} Autoplay is now **enabled**`);
-      return await interaction.editReply({ embeds: [thing] });
-    } else {
-      player.set("autoplay", false);
-      player.queue.clear();
-      let thing = new EmbedBuilder()
-        .setColor(client.embedColor)
-        .setTimestamp()
-        .setDescription(`${emojireplay} Autoplay is now **disabled**`);
+        .setDescription(`${emojireplay} Autoplay is now **enabled**.`);
 
-      return await interaction.editReply({ embeds: [thing] });
+      return interaction.editReply({ embeds: [thing] });
     }
   },
 };

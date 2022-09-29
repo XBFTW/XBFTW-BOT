@@ -1,36 +1,48 @@
-const { Client, Collection, GatewayIntentBits, Partials } = require("discord.js");
-const mongoose = require('mongoose');
-const Lavamusic = require('./Lavamusic');
+const {
+  Client,
+  Collection,
+  GatewayIntentBits,
+  Partials,
+} = require("discord.js");
+const mongoose = require("mongoose");
+const Lavamusic = require("./Lavamusic");
 
 class MusicBot extends Client {
   constructor() {
     super({
-      shards: "auto",
+      failIfNotExists: true,
       allowedMentions: {
-        everyone: false,
-        roles: false,
-        users: false
+        parse: ["everyone", "roles", "users"],
       },
       intents: [
         GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMembers,
-        GatewayIntentBits.GuildIntegrations,
         GatewayIntentBits.MessageContent,
-        GatewayIntentBits.GuildWebhooks,
-        GatewayIntentBits.GuildInvites,
         GatewayIntentBits.GuildVoiceStates,
-        GatewayIntentBits.GuildPresences,
         GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.GuildMessageReactions,
-        GatewayIntentBits.GuildMessageTyping,
         GatewayIntentBits.DirectMessages,
-        GatewayIntentBits.DirectMessageReactions,
-        GatewayIntentBits.DirectMessageTyping,
-
+        GatewayIntentBits.GuildInvites,
       ],
-      partials: [Partials.Channel, Partials.Message, Partials.User, Partials.GuildMember, Partials.Reaction]
+      partials: [
+        Partials.Channel,
+        Partials.Message,
+        Partials.User,
+        Partials.GuildMember,
+      ],
     });
     this.commands = new Collection();
+    /**
+     * @typedef {Object} ApplicationCommandInterface A base command interface with keys and their value literals.
+     * @property {string} name Name for the command.
+     * @property {string} description Description for the command.
+     * @property {boolean} player Whether or not a player should exist for the command to execute.
+     * @property {boolean} dj Whether or not the member should be a dj to execute the command.
+     * @property {boolean} inVoiceChannel Whether or not the executor should be in a voice channel for the command to execute.
+     * @property {boolean} sameVoiceChannel Whether or not the executor should be in the same voice channel as the client.
+     */
+
+    /**
+     * @type {Collection<string, ApplicationCommandInterface>}
+     */
     this.slashCommands = new Collection();
     this.config = require("../config.js");
     this.owner = this.config.ownerID;
@@ -41,11 +53,11 @@ class MusicBot extends Client {
     this.logger = require("../utils/logger.js");
     this.emoji = require("../utils/emoji.json");
     if (!this.token) this.token = this.config.token;
-    this.manager = new Lavamusic(this)
+    this.manager = new Lavamusic(this);
 
-    this.rest.on('rateLimited', (info) => {
-      this.logger.log(info, 'ratelimit');
-    })
+    this.rest.on("rateLimited", (info) => {
+      this.logger.log(info, "log");
+    });
 
     /**
      *  Mongose for data base
@@ -59,23 +71,23 @@ class MusicBot extends Client {
     };
     mongoose.connect(this.config.mongourl, dbOptions);
     mongoose.Promise = global.Promise;
-    mongoose.connection.on('connected', () => {
-      this.logger.log('[DB] DATABASE CONNECTED', "ready");
+    mongoose.connection.on("connected", () => {
+      this.logger.log("[DB] DATABASE CONNECTED", "ready");
     });
-    mongoose.connection.on('err', (err) => {
+    mongoose.connection.on("err", (err) => {
       console.log(`Mongoose connection error: \n ${err.stack}`, "error");
     });
-    mongoose.connection.on('disconnected', () => {
-      console.log('Mongoose disconnected');
+    mongoose.connection.on("disconnected", () => {
+      console.log("Mongoose disconnected");
     });
 
-    ['commands', 'slashCommand', 'events'].forEach((handler) => {
+    ["commands", "slashCommand", "events"].forEach((handler) => {
       require(`../handlers/${handler}`)(this);
     });
   }
   connect() {
     return super.login(this.token);
-  };
-};
+  }
+}
 
 module.exports = MusicBot;

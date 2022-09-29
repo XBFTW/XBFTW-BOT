@@ -2,7 +2,7 @@ const { CommandInteraction, Client, EmbedBuilder, ApplicationCommandOptionType }
 
 module.exports = {
   name: "remove",
-  description: "Remove a song from the queue",
+  description: "Removes a song from the queue.",
   userPrems: [],
   player: true,
   dj: true,
@@ -11,7 +11,7 @@ module.exports = {
   options: [
     {
       name: "number",
-      description: "Number of song in queue",
+      description: "Song number in queue.",
       required: true,
       type: ApplicationCommandOptionType.Number,
     }
@@ -33,7 +33,7 @@ module.exports = {
 
     if (!player.queue.current) {
       let thing = new EmbedBuilder()
-        .setColor("RED")
+        .setColor("Red")
         .setDescription("There is no music playing.");
       return await interaction.editReply({ embeds: [thing] });
     }
@@ -42,8 +42,8 @@ module.exports = {
     if (position > player.queue.size) {
       const number = (position + 1);
       let thing = new EmbedBuilder()
-        .setColor("RED")
-        .setDescription(`No songs at number ${number}.\nTotal Songs: ${player.queue.size}`);
+        .setColor("Red")
+        .setDescription(`No song was found at number ${number}.\nTotal Songs: ${player.queue.size}`);
       return await interaction.editReply({ embeds: [thing] });
     }
 
