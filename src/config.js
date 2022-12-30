@@ -4,23 +4,25 @@ module.exports = {
     token: process.env.TOKEN || "",  // your bot token
     clientID: process.env.CLIENT_ID || "", // your bot client id
     prefix: process.env.PREFIX || "!", // bot prefix
-    ownerID: process.env.OWNERID || "415687999641354250", //your discord id
-    SpotifyID: process.env.SPOTIFYID || "",
-    SpotifySecret: process.env.SPOTIFYSECRET || "",
-    mongourl: process.env.MONGO_URI || "", // MongoDb URL
-    embedColor: process.env.COlOR || 0x303236, // embed colour
-    logs: process.env.LOGS || "", // channel id for guild create and delete logs
+    ownerID: process.env.OWNER_ID || "", //your discord id
+    SpotifyID: process.env.SPOTIFY_ID || "",
+    SpotifySecret: process.env.SPOTIFY_SECRET || "",
+    mongourl: process.env.MONGO_URL || "", // MongoDb URL
+    embedColor: process.env.EMBED_COLOR || 0x303236, // embed colour
+    logs: process.env.LOGS || "channel_id", // channel id for guild create and delete logs
+    errorLogsChannel: process.env.ERROR_LOGS_CHANNEL || "channel_id", //error logs channel id
+    SearchPlatform: process.env.SEARCH_PLATFORM || "youtube music", // Sets the Search Platform. Possibilities: youtube || youtube music || soundcloud
+    AggregatedSearchOrder: process.env.AGGREGATED_SEARCH_ORDER || "youtube music,youtube,soundcloud", // Sets the order of Slash command's AutoComplete results
     links: {
-        img: process.env.IMG || 'https://xbftw.com/assets/img/xbftw.png', //setup system background image 
-        support: process.env.SUPPORT || 'https://xbftw/com/discord', //support server invite link
-        invite: process.env.INVITE || 'https://xbftw.com/bot/invite' //bot invite link
+        img: process.env.IMG || 'https://media.discordapp.net/attachments/963097935820750878/983300268131225651/20220606_145403.png', //setup system background image 
+        support: process.env.SUPPORT || 'https://discord.gg/ns8CTk9J3e', //support server invite link
+        invite: process.env.INVITE || 'https://discord.com/oauth2/authorize?client_id=977742811132743762&permissions=8&scope=bot%20applications.commands' //bot invite link
     },
     nodes: [
         {
-            host: process.env.NODE_HOST || "lavalink.xbftw.com",
-            identifier: process.env.NODE_ID || "local",
-            port: parseInt(process.env.NODE_PORT || "2000"),
-            password: process.env.NODE_PASSWORD || "youshallnotpass",
+            host: process.env.NODE_HOST || "nonssl.freelavalink.ga",
+            port: parseInt(process.env.NODE_PORT || "80"),
+            password: process.env.NODE_PASSWORD || "www.freelavalink.ga",
             secure: parseBoolean(process.env.NODE_SECURE || "false"),
 
         }

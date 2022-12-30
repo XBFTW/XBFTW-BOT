@@ -1,12 +1,12 @@
 const { EmbedBuilder } = require("discord.js");
-const fetch = require("node-fetch");
+const { get } = require("node-superfetch");
 
 module.exports = {
   name: "lyrics",
   category: "Music",
-  description: "Prints the lyrics of a song",
+  description: "Gets the lyrics of a song.",
   userPrems: [],
-  usage: "lyrics <song name>",
+  usage: "<song name>",
   player: true,
   args: true,
   dj: false,
@@ -14,7 +14,7 @@ module.exports = {
   sameVoiceChannel: true,
 
   execute: async (message, args, client, prefix) => {
-    await message.reply({
+    const searchMsg = await message.reply({
       embeds: [
         new EmbedBuilder()
           .setColor(client.embedColor)
@@ -29,8 +29,8 @@ module.exports = {
       return message.channel.send({
         embeds: [
           new EmbedBuilder()
-            .setColor("RED")
-            .setDescription("Lavalink node is not connected"),
+            .setColor("Red")
+            .setDescription("Lavalink node is not connected."),
         ],
       });
     }
@@ -39,41 +39,36 @@ module.exports = {
       return message.channel.send({
         embeds: [
           new EmbedBuilder()
-            .setColor("RED")
-            .setDescription("There's nothing playing"),
+            .setColor("Red")
+            .setDescription("There's no music playing."),
         ],
       });
     }
 
     let search = args ? args : player.queue.current.title;
-    // Lavalink api for lyrics
+    // Lavalink API for lyrics
     let url = `https://api.darrennathanael.com/lyrics?song=${search}`;
 
-    let lyrics = await fetch(url)
-      .then((res) => {
-        return res.json();
-      })
-      .catch((err) => {
-        return err.name;
-      });
-    if (!lyrics || lyrics.response !== 200 || lyrics === "FetchError") {
+    let lyrics = await get(url);
+
+    if (!lyrics || lyrics.status !== 200) {
       return message.channel.send({
         embeds: [
           new EmbedBuilder()
-            .setColor("RED")
+            .setColor("Red")
             .setDescription(
-              `❌ | No lyrics found for ${search}!\nMake sure you typed in your search correctly.`
+              `❌ | No lyrics found for ${search}!\nMake sure you entered your search correctly.`
             ),
         ],
       });
     }
 
-    let text = lyrics.lyrics;
+    let text = lyrics.body.lyrics;
     let lyricsEmbed = new EmbedBuilder()
       .setColor(client.embedColor)
-      .setTitle(`${lyrics.full_title}`)
+      .setTitle(`${lyrics.body.full_title}`)
       .setURL(lyrics.url)
-      .setThumbnail(lyrics.thumbnail)
+      .setThumbnail(lyrics.body.thumbnail)
       .setDescription(text);
 
     if (text.length > 4096) {
@@ -83,6 +78,6 @@ module.exports = {
         .setFooter({ text: "Truncated, the lyrics were too long." });
     }
 
-    return message.channel.send({ embeds: [lyricsEmbed] });
+    return message.channel.send({ embeds: [lyricsEmbed] }).then(() => searchMsg.delete());
   },
 };

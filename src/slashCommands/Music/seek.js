@@ -1,10 +1,10 @@
 const { CommandInteraction, Client, EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
-const { convertTime } = require('../../utils/convert.js')
+const { convertTime, convertHmsToMs } = require('../../utils/convert.js')
 const ms = require('ms');
 
 module.exports = {
     name: "seek",
-    description: "Seek the currently playing song",
+    description: "Seek the currently playing song.",
     userPrems: [],
     player: true,
     dj: true,
@@ -13,7 +13,7 @@ module.exports = {
     options: [
         {
             name: "time",
-            description: "<10s || 10m || 10h>",
+            description: "<10s || 10m || 10h || HH:mm:ss || mm:ss || mm ss>",
             required: true,
             type: ApplicationCommandOptionType.String
         }
@@ -29,17 +29,17 @@ module.exports = {
             ephemeral: false
         });
 
-        const args = interaction.options.getString("time");
         const player = interaction.client.manager.get(interaction.guildId);
 
         if (!player.queue.current) {
             let thing = new EmbedBuilder()
-                .setColor("RED")
+                .setColor("Red")
                 .setDescription("There is no music playing.");
             return await interaction.editReply({ embeds: [thing] });
         }
 
-        const time = ms(args)
+        let time = interaction.options.getString("time");
+        /^[0-9 :.-]+$/.test(time) ? time = convertHmsToMs(time) : time = ms(time);
         const position = player.position;
         const duration = player.queue.current.duration;
 
@@ -66,8 +66,8 @@ module.exports = {
             }
         } else {
             let thing = new EmbedBuilder()
-                .setColor("RED")
-                .setDescription(`Seek duration exceeds Song duration.\nSong duration: \`${convertTime(duration)}\``);
+                .setColor("Red")
+                .setDescription(`Seek duration exceeds song duration.\nRequested: \`${convertTime(time)}\`\nSong duration: \`${convertTime(duration)}\``);
             return await interaction.editReply({ embeds: [thing] });
         }
 

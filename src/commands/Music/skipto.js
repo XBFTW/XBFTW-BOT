@@ -4,9 +4,9 @@ module.exports = {
     name: "skipto",
     aliases: ["jump"],
     category: "Music",
-    description: "Forward song",
+    description: "Skip to a specific song.",
     args: true,
-    usage: "<Number of song in queue>",
+    usage: "<song # in queue>",
     userPerms: [],
     dj: true,
     owner: false,
@@ -19,7 +19,7 @@ module.exports = {
 
         if (!player.queue.current) {
             let thing = new EmbedBuilder()
-                .setColor("RED")
+                .setColor("Red")
                 .setDescription("There is no music playing.");
             return message.reply({embeds: [thing]});
         }
@@ -28,8 +28,8 @@ module.exports = {
 		
 		if (!position || position < 0 || position > player.queue.size) { 
 			let thing = new EmbedBuilder()
-                .setColor("RED")
-				.setDescription(`Usage: ${message.client.prefix}skipto <Number of song in queue>`)
+                .setColor("Red")
+				.setDescription(`Usage: ${message.client.prefix}skipto <song # in queue>`)
             return message.reply({embeds: [thing]});
 		}
 
@@ -39,7 +39,7 @@ module.exports = {
 		const emojijump = client.emoji.jump;
 
 		let thing = new EmbedBuilder()
-			.setDescription(`${emojijump} Forward **${position}** Songs`)
+			.setDescription(`${emojijump} Skipped to song **${position}**.`)
 			.setColor(client.embedColor)
 			.setTimestamp()
 			

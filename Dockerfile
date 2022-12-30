@@ -1,10 +1,10 @@
-FROM node:16
+FROM node:18
 RUN mkdir -p /opt/XBFTW-BOT
 WORKDIR /opt/XBFTW-BOT
 
+# Copy dependencies first to improve layer caching
 COPY package*.json ./
-
-RUN npm install
+RUN npm install --production
 
 COPY . .
 

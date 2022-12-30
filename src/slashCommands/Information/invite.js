@@ -2,7 +2,7 @@ const { EmbedBuilder, CommandInteraction, ButtonStyle, Client, ButtonBuilder, Ac
 
 module.exports = {
     name: "invite",
-    description: "Get my invite link",
+    description: "Get the bot's invite link.",
 
     /**
      * 
@@ -21,22 +21,22 @@ module.exports = {
     new ButtonBuilder()
     .setLabel("Invite")
     .setStyle(ButtonStyle.Link)
-    .setURL(`https://discord.com/api/oauth2/authorize?client_id=808588275831930890&permissions=8&scope=bot%20applications.commands`),
+    .setURL(`https://discord.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=36768832&scope=applications.commands%20bot`),
 	new ButtonBuilder()
     .setLabel("Github")
     .setStyle(ButtonStyle.Link)
-    .setURL("https://github.com/XBFTW/XBFTW-BOT"),
+    .setURL("https://github.com/brblacky/lavamusic"),
     new ButtonBuilder()
     .setLabel("Support")
     .setStyle(ButtonStyle.Link)
-    .setURL("https://xbftw.com/discord")
+    .setURL("https://discord.gg/gfcv94hDhv")
 			);
 
-         const mainPage = new EmbedBuilder()
-            .setAuthor({ name: 'XBFTW', iconURL: 'https://xbftw.com/assets/img/xbftw.png'})
-            .setThumbnail('https://xbftw.com/assets/img/xbftw.png')
-            .setColor('#303236')
-            .addFields([{ name: 'Invite XBFTW-BOT', value: `[Here](https://discord.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=36768832&scope=applications.commands%20bot)`}])
+          const mainPage = new EmbedBuilder()
+            .setAuthor({ name: 'LavaMusic', iconURL: 'https://media.discordapp.net/attachments/876035356460462090/888434725235097610/20210820_124325.png'})
+            .setThumbnail('https://media.discordapp.net/attachments/876035356460462090/888434725235097610/20210820_124325.png')
+            .setColor(0x303236)
+             .addFields([{ name: 'invite lavamusic', value: `[Here](https://discord.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=36768832&scope=applications.commands%20bot)`}])
              await interaction.followUp({embeds: [mainPage], components: [row]})
-  }
+    }
 }

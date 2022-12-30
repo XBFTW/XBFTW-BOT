@@ -1,9 +1,11 @@
 const { EmbedBuilder } = require("discord.js");
+const moment = require("moment");
+require("moment-duration-format");
 
 module.exports = {
   name: "ping",
   category: "Information",
-  description: "Check Ping Bot",
+  description: "Displays the bot's ping.",
   args: false,
   usage: "",
   userPerms: [],
@@ -11,15 +13,18 @@ module.exports = {
   execute: async (message, args, client, prefix) => {
 
     await message.reply({ content: "Pinging..." }).then(async (msg) => {
-      const ping = msg.createdAt - message.createdAt;
+      const pping = msg.createdAt - message.createdAt;
+
       const api_ping = client.ws.ping;
+      const uptime = moment.duration(message.client.uptime).format(" D[d], H[h], m[m], s[s]");
 
       const PingEmbed = new EmbedBuilder()
         .setAuthor({ name: "Pong", iconURL: client.user.displayAvatarURL() })
         .setColor(client.embedColor)
         .addFields([
-          { name: "Bot Latency", value: `\`\`\`ini\n[ ${ping}ms ]\n\`\`\``, inline: true },
-          { name: "API Latency", value: `\`\`\`ini\n[ ${api_ping}ms ]\n\`\`\``, inline: true }
+          { name: "Bot Latency", value: `\`\`\`ini\n[ ${pping}ms ]\n\`\`\``, inline: true },
+          { name: "API Latency", value: `\`\`\`ini\n[ ${api_ping}ms ]\n\`\`\``, inline: true },
+          { name: "Uptime", value: `\`\`\`ini\n[ ${uptime} ]\n\`\`\``, inline: true }
         ])
         .setFooter({ text: `Requested by ${message.author.username}`, iconURL: message.author.avatarURL({ dynamic: true }) })
         .setTimestamp();

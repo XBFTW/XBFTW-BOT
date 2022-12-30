@@ -4,9 +4,9 @@ module.exports = {
 	name: "resume",
     aliases: ["r"],
     category: "Music",
-    description: "Resume currently playing music",
+    description: "Resume playing music.",
     args: false,
-    usage: "<Number of song in queue>",
+    usage: "",
     userPerms: [],
     dj: true,
     owner: false,
@@ -20,7 +20,7 @@ module.exports = {
 
         if (!player.queue.current) {
             let thing = new EmbedBuilder()
-                .setColor("RED")
+                .setColor("Red")
                 .setDescription("There is no music playing.");
             return message.reply({embeds: [thing]});
         }
@@ -29,7 +29,7 @@ module.exports = {
 
         if (!player.paused) {
             let thing = new EmbedBuilder()
-                .setColor("RED")
+                .setColor("Red")
                 .setDescription(`${emojiresume} The player is already **resumed**.`)
                 .setTimestamp()
           return message.reply({embeds: [thing]});

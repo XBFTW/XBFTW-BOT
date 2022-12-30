@@ -1,16 +1,16 @@
-const { EmbedBuilder, CommandInteraction, Client, ActionRowBuilder, ButtonBuilder, ApplicationCommandOptionType } = require("discord.js");
+const { EmbedBuilder, CommandInteraction, Client, ApplicationCommandOptionType } = require("discord.js");
 const db = require("../../schema/playlist");
 
 module.exports = {
     name: "load",
-    description: "Play the saved Playlist.",
+    description: "Play the saved playlist.",
     player: false,
     inVoiceChannel: true,
     sameVoiceChannel: true,
     options: [
         {
             name: "name",
-            description: "Play the saved playlist",
+            description: "Playlist name.",
             required: true,
             type: ApplicationCommandOptionType.String
         }
@@ -37,14 +37,14 @@ module.exports = {
         });
 
         if (player && player.state !== "CONNECTED") player.connect();
-        let length = data.PlaylistName;
-        let name = Name;
         
         if (!data) {
             return interaction.editReply({ embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`Playlist not found. Please enter the correct playlist name`)] })
         }
         if (!player) return;
 
+        let length = data.PlaylistName;
+        let name = Name;
         let count = 0;
         const m = await interaction.editReply({ embeds: [new EmbedBuilder().setColor(client.embedColor).setDescription(`Adding ${length} track(s) from your playlist **${Name}** to the queue.`)] })
         for (const track of data.Playlist) {
